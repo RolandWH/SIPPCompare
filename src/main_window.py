@@ -61,13 +61,16 @@ class SIPPCompare(QMainWindow):
                 break
 
         shares_value = (1 - (slider_val / 100)) * value_num
-        share_plat_fees = self.share_plat_fee * shares_value
-        if (share_plat_fees / 12) > self.share_plat_max_fee:
+        if (self.share_plat_fee * shares_value / 12) > self.share_plat_max_fee:
             share_plat_fees = self.share_plat_max_fee * 12
+        else:
+            share_plat_fees = self.share_plat_fee * shares_value
+
         share_trades_num = int(self.share_trades_combo.currentText())
-        share_deal_fees = self.share_deal_fee * share_trades_num
-        if (share_trades_num / 12) > self.share_deal_reduce_trades:
+        if (share_trades_num / 12) >= self.share_deal_reduce_trades:
             share_deal_fees = self.share_deal_reduce_amount * share_trades_num
+        else:
+            share_deal_fees = self.share_deal_fee * share_trades_num
 
         self.show_output_win(fund_plat_fees, fund_deal_fees, share_plat_fees, share_deal_fees)
 
