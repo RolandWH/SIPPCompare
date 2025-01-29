@@ -6,65 +6,143 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>771</width>
-    <height>502</height>
+    <width>484</width>
+    <height>290</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Platform Editor</string>
   </property>
-  <widget class="QScrollArea" name="scrollArea">
+  <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>130</y>
-     <width>331</width>
+     <x>10</x>
+     <y>10</y>
+     <width>461</width>
      <height>191</height>
     </rect>
    </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>329</width>
-      <height>189</height>
-     </rect>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>6</number>
     </property>
-    <widget class="QListWidget" name="listWidget">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>311</width>
-       <height>141</height>
-      </rect>
-     </property>
-     <item>
+    <property name="topMargin">
+     <number>6</number>
+    </property>
+    <property name="rightMargin">
+     <number>6</number>
+    </property>
+    <property name="bottomMargin">
+     <number>6</number>
+    </property>
+    <property name="horizontalSpacing">
+     <number>15</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>10</number>
+    </property>
+    <item row="2" column="0" colspan="2">
+     <widget class="QLabel" name="share_plat_fee_lab">
       <property name="text">
-       <string>up to</string>
+       <string>Share platform fee</string>
       </property>
-     </item>
-    </widget>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>160</y>
-       <width>111</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>PushButton</string>
-     </property>
-    </widget>
-   </widget>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QLineEdit" name="share_deal_fee_box"/>
+    </item>
+    <item row="3" column="2">
+     <widget class="QLineEdit" name="share_plat_max_fee_box"/>
+    </item>
+    <item row="0" column="0" colspan="2">
+     <widget class="QLabel" name="fund_deal_fee_lab">
+      <property name="text">
+       <string>Fund dealing fee</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="fund_deal_fee_box"/>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLineEdit" name="share_plat_fee_box"/>
+    </item>
+    <item row="3" column="0" colspan="2">
+     <widget class="QLabel" name="share_plat_max_fee_lab">
+      <property name="text">
+       <string>Share platform fee cap</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="2">
+     <widget class="QLineEdit" name="share_deal_reduce_amount_box"/>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <widget class="QLabel" name="share_deal_fee_lab">
+      <property name="text">
+       <string>Share dealing fee</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0" colspan="2">
+     <widget class="QLabel" name="share_deal_reduce_amount_lab">
+      <property name="text">
+       <string>Share dealing fee discount</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QLineEdit" name="share_deal_reduce_trades_box"/>
+    </item>
+    <item row="6" column="0" colspan="2">
+     <widget class="QLabel" name="share_deal_reduce_trades_lab">
+      <property name="text">
+       <string>Share dealing discount # of trades</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="save_but">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>260</y>
+     <width>191</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>fund_deal_fee_box</tabstop>
+  <tabstop>share_plat_fee_box</tabstop>
+  <tabstop>share_plat_max_fee_box</tabstop>
+  <tabstop>share_deal_fee_box</tabstop>
+  <tabstop>share_deal_reduce_trades_box</tabstop>
+  <tabstop>share_deal_reduce_amount_box</tabstop>
+  <tabstop>save_but</tabstop>
+ </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>save_but</sender>
+   <signal>clicked()</signal>
+   <receiver>PlatformEdit</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>445</x>
+     <y>211</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
