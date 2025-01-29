@@ -11,6 +11,7 @@ class PlatformEdit(QWidget):
             [0, 250000, 1000000, 2000000],
             [0, 0.25, 0.1, 0.05]
         ]
+        self.plat_name = ""
         self.fund_deal_fee = 0.0
         self.share_plat_fee = 0.0
         self.share_plat_max_fee = 0.0
@@ -21,12 +22,16 @@ class PlatformEdit(QWidget):
         self.save_but.clicked.connect(self.init_variables)
 
     def init_variables(self):
+        self.plat_name = self.plat_name_box.text()
         self.fund_deal_fee = float(self.fund_deal_fee_box.text())
         self.share_plat_fee = float(self.share_plat_fee_box.text()) / 100
         self.share_plat_max_fee = float(self.share_plat_max_fee_box.text())
         self.share_deal_fee = float(self.share_deal_fee_box.text())
         self.share_deal_reduce_trades = float(self.share_deal_reduce_trades_box.text())
         self.share_deal_reduce_amount = float(self.share_deal_reduce_amount_box.text())
+
+    def get_plat_name(self):
+        return self.plat_name
 
     def get_fund_plat_fee(self):
         return self.fund_plat_fee

@@ -14,20 +14,21 @@ class OutputWindow(QWidget):
 
         self.res_save_but.clicked.connect(self.save_results)
         self.results_str = ""
+        self.platform_name = ""
 
     def save_results(self):
         cur_time = datetime.datetime.now()
         if not os.path.exists("output"):
             os.makedirs("output")
-        filename_str = (f"output/{cur_time.year}-{cur_time.month}-{cur_time.day}"
-                        f".{cur_time.hour}-{cur_time.minute}-{cur_time.second}.txt")
+        filename_str = f"output/{self.platform_name}-{cur_time.year}.{cur_time.month}.{cur_time.day}.txt"
         output_file = open(filename_str, "wt")
         output_file.write(self.results_str)
 
 
     def display_output(self, fund_plat_fees: float, fund_deal_fees: float,
-                       share_plat_fees: float, share_deal_fees: float):
-        self.results_str = "Fees breakdown:"
+                       share_plat_fees: float, share_deal_fees: float, plat_name: str):
+        self.platform_name = plat_name
+        self.results_str = f"Fees breakdown (Platform \"{self.platform_name}\"):"
 
         self.results_str += "\n\nPlatform fees:"
         self.results_str += f"\n\tFund platform fees: £{round(fund_plat_fees, 2):.2f}"

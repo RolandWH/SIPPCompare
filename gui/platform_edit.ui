@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>461</width>
-     <height>191</height>
+     <height>226</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -41,65 +41,75 @@
     <property name="verticalSpacing">
      <number>10</number>
     </property>
-    <item row="2" column="0" colspan="2">
+    <item row="3" column="0" colspan="2">
      <widget class="QLabel" name="share_plat_fee_lab">
       <property name="text">
        <string>Share platform fee</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="2">
+    <item row="5" column="2">
      <widget class="QLineEdit" name="share_deal_fee_box"/>
     </item>
-    <item row="3" column="2">
+    <item row="4" column="2">
      <widget class="QLineEdit" name="share_plat_max_fee_box"/>
     </item>
-    <item row="0" column="0" colspan="2">
+    <item row="1" column="0" colspan="2">
      <widget class="QLabel" name="fund_deal_fee_lab">
       <property name="text">
        <string>Fund dealing fee</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="2">
+    <item row="1" column="2">
      <widget class="QLineEdit" name="fund_deal_fee_box"/>
     </item>
-    <item row="2" column="2">
+    <item row="3" column="2">
      <widget class="QLineEdit" name="share_plat_fee_box"/>
     </item>
-    <item row="3" column="0" colspan="2">
+    <item row="4" column="0" colspan="2">
      <widget class="QLabel" name="share_plat_max_fee_lab">
       <property name="text">
        <string>Share platform fee cap</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="2">
+    <item row="8" column="2">
      <widget class="QLineEdit" name="share_deal_reduce_amount_box"/>
     </item>
-    <item row="4" column="0" colspan="2">
+    <item row="5" column="0" colspan="2">
      <widget class="QLabel" name="share_deal_fee_lab">
       <property name="text">
        <string>Share dealing fee</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="0" colspan="2">
+    <item row="8" column="0" colspan="2">
      <widget class="QLabel" name="share_deal_reduce_amount_lab">
       <property name="text">
        <string>Share dealing fee discount</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="2">
+    <item row="7" column="2">
      <widget class="QLineEdit" name="share_deal_reduce_trades_box"/>
     </item>
-    <item row="6" column="0" colspan="2">
+    <item row="7" column="0" colspan="2">
      <widget class="QLabel" name="share_deal_reduce_trades_lab">
       <property name="text">
        <string>Share dealing discount # of trades</string>
       </property>
      </widget>
+    </item>
+    <item row="0" column="0" colspan="2">
+     <widget class="QLabel" name="plat_name_lab">
+      <property name="text">
+       <string>Platform name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="plat_name_box"/>
     </item>
    </layout>
   </widget>
@@ -118,6 +128,7 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>plat_name_box</tabstop>
   <tabstop>fund_deal_fee_box</tabstop>
   <tabstop>share_plat_fee_box</tabstop>
   <tabstop>share_plat_max_fee_box</tabstop>

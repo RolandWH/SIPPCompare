@@ -12,6 +12,7 @@ class SIPPCompare(QMainWindow):
 
         # Define class variables
         self.fund_plat_fee              = 0.0
+        self.plat_name                  = ""
         self.fund_deal_fee              = 0.0
         self.share_plat_fee             = 0.0
         self.share_plat_max_fee         = 0.0
@@ -39,6 +40,7 @@ class SIPPCompare(QMainWindow):
         self.mix_lab.setText(mix_lab_str)
 
     def init_variables(self):
+        self.plat_name                  = self.platform_win.get_plat_name()
         self.fund_plat_fee              = self.platform_win.get_fund_plat_fee()
         self.fund_deal_fee              = self.platform_win.get_fund_deal_fee()
         self.share_plat_fee             = self.platform_win.get_share_plat_fee()
@@ -50,6 +52,7 @@ class SIPPCompare(QMainWindow):
     # Calculate fees
     def calculate_fees(self):
         self.init_variables()
+        self.fund_plat_fees = 0
         value_num = float(self.value_input.text()[1:])
         slider_val = self.mix_slider.value()
         funds_value = (slider_val / 100) * value_num
@@ -57,10 +60,10 @@ class SIPPCompare(QMainWindow):
         self.fund_deal_fees = fund_trades_num * self.fund_deal_fee
         remaining = funds_value
 
-        for i in range(1, len(self.tiered_fees[0])):
-            band = self.tiered_fees[0][i]
-            prev_band = self.tiered_fees[0][i - 1]
-            fee = self.tiered_fees[1][i]
+        for i in range(1, len(self.fund_plat_fee[0])):
+            band = self.fund_plat_fee[0][i]
+            prev_band = self.fund_plat_fee[0][i - 1]
+            fee = self.fund_plat_fee[1][i]
             gap = (band - prev_band)
 
             if remaining > gap:
@@ -88,7 +91,7 @@ class SIPPCompare(QMainWindow):
     def show_output_win(self):
         # Refresh the results when new fees are calculated
         self.output_win.display_output(self.fund_plat_fees, self.fund_deal_fees,
-                                       self.share_plat_fees, self.share_deal_fees)
+                                       self.share_plat_fees, self.share_deal_fees, self.plat_name)
         self.output_win.show()
 
     # Show the platform editor window (currently useless)
