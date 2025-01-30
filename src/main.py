@@ -2,11 +2,11 @@ from PyQt6.QtWidgets import QApplication
 
 import sys
 
-import main_window
+import platform_edit
 
 
 app = QApplication(sys.argv)
-window = main_window.SIPPCompare()
+# Show platform edit window first, before main win
+window = platform_edit.PlatformEdit()
 window.show()
-window.show_platform_edit()
 app.exec()

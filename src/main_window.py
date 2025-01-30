@@ -1,16 +1,16 @@
 from PyQt6.QtWidgets import QMainWindow
 from PyQt6 import uic
 
-import platform_edit
 import output_window
 
 
 class SIPPCompare(QMainWindow):
-    def __init__(self):
+    # Receive instance of PlatformEdit() as parameter
+    def __init__(self, plat_edit_win):
         super().__init__()
         uic.loadUi("gui/main_gui.ui", self)
 
-        # Define class variables
+        # Initialise class variables
         self.fund_plat_fee              = 0.0
         self.plat_name                  = ""
         self.fund_deal_fee              = 0.0
@@ -25,7 +25,8 @@ class SIPPCompare(QMainWindow):
         self.share_plat_fees    = 0.0
         self.share_deal_fees    = 0.0
 
-        self.platform_win = None
+        # Create window objects
+        self.platform_win = plat_edit_win
         self.output_win = output_window.OutputWindow()
 
         # Handle events
@@ -39,6 +40,7 @@ class SIPPCompare(QMainWindow):
         mix_lab_str = f"Investment mix (funds {slider_val}% / shares {100 - slider_val}%)"
         self.mix_lab.setText(mix_lab_str)
 
+    # Get local variables from user input
     def init_variables(self):
         self.plat_name                  = self.platform_win.get_plat_name()
         self.fund_plat_fee              = self.platform_win.get_fund_plat_fee()
@@ -53,7 +55,7 @@ class SIPPCompare(QMainWindow):
     def calculate_fees(self):
         self.init_variables()
         self.fund_plat_fees = 0
-        value_num = float(self.value_input.text()[1:])
+        value_num = float(self.value_input.text()[1:]) # Filter out '£' symbol
         slider_val = self.mix_slider.value()
         funds_value = (slider_val / 100) * value_num
         fund_trades_num = int(self.fund_trades_combo.currentText())
@@ -94,9 +96,6 @@ class SIPPCompare(QMainWindow):
                                        self.share_plat_fees, self.share_deal_fees, self.plat_name)
         self.output_win.show()
 
-    # Show the platform editor window (currently useless)
+    # Show the platform editor window (currently run-time only)
     def show_platform_edit(self):
-        # Check window isn't already open
-        if self.platform_win is None:
-            self.platform_win = platform_edit.PlatformEdit()
         self.platform_win.show()
