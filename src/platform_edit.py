@@ -27,6 +27,8 @@ class PlatformEdit(QWidget):
         self.share_deal_reduce_amount = 0.0
         # Debugging feature: set with "--DEBUG_AUTOFILL" cmd argument
         self.autofill = autofill
+        if autofill:
+            self.save_but.setEnabled(True)
 
         # Create main window object, passing this instance as param
         self.main_win = main_window.SIPPCompare(self)
