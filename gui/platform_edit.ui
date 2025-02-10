@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>481</width>
+    <width>480</width>
     <height>305</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>480</width>
+    <height>305</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>480</width>
+    <height>305</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Platform Editor</string>
@@ -206,6 +218,7 @@
   <tabstop>share_plat_fee_box</tabstop>
   <tabstop>share_plat_max_fee_box</tabstop>
   <tabstop>share_deal_fee_box</tabstop>
+  <tabstop>share_deal_reduce_trades_box</tabstop>
   <tabstop>share_deal_reduce_amount_box</tabstop>
   <tabstop>save_but</tabstop>
  </tabstops>
