@@ -24,7 +24,7 @@ class OutputWindow(QWidget):
         if not os.path.exists("output"):
             os.makedirs("output")
         filename_str = f"output/{self.platform_name}-{cur_time.year}.{cur_time.month}.{cur_time.day}.txt"
-        output_file = open(filename_str, "wt")
+        output_file = open(filename_str, "wt", encoding = "utf-8")
         output_file.write(self.results_str)
 
     # Display fees in output window as plaintext readout
