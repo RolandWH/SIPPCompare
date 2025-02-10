@@ -8,6 +8,7 @@ import os
 class OutputWindow(QWidget):
     def __init__(self):
         super().__init__()
+        # Import Qt Designer UI XML file
         uic.loadUi("gui/output_window.ui", self)
 
         # Initialise class variables

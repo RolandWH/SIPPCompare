@@ -58,25 +58,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="value_input">
-       <property name="inputMask">
-        <string>£0000000000</string>
-       </property>
-       <property name="text">
-        <string>£</string>
-       </property>
-       <property name="maxLength">
-        <number>11</number>
-       </property>
-       <property name="frame">
-        <bool>true</bool>
-       </property>
-       <property name="cursorPosition">
-        <number>1</number>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0" colspan="2">
       <widget class="QLabel" name="mix_lab">
        <property name="text">
@@ -135,6 +116,28 @@
       <widget class="QPushButton" name="calc_but">
        <property name="text">
         <string>Calculate</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="value_input">
+       <property name="frame">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+       </property>
+       <property name="specialValueText">
+        <string>£</string>
+       </property>
+       <property name="correctionMode">
+        <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+       </property>
+       <property name="prefix">
+        <string>£</string>
+       </property>
+       <property name="maximum">
+        <double>999999999.990000009536743</double>
        </property>
       </widget>
      </item>
