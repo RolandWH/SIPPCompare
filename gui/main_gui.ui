@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>250</height>
+    <height>228</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>420</width>
-    <height>250</height>
+    <height>228</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>420</width>
-    <height>250</height>
+    <height>228</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
       <x>10</x>
       <y>0</y>
       <width>401</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -55,6 +55,28 @@
       <widget class="QLabel" name="value_lab">
        <property name="text">
         <string>Pension value</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="value_input">
+       <property name="frame">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+       </property>
+       <property name="specialValueText">
+        <string>£</string>
+       </property>
+       <property name="correctionMode">
+        <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+       </property>
+       <property name="prefix">
+        <string>£</string>
+       </property>
+       <property name="maximum">
+        <double>999999999.990000009536743</double>
        </property>
       </widget>
      </item>
@@ -91,13 +113,6 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QComboBox" name="share_trades_combo">
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="0">
       <widget class="QLabel" name="fund_trades_lab">
        <property name="text">
@@ -114,30 +129,18 @@
      </item>
      <item row="5" column="0" colspan="2">
       <widget class="QPushButton" name="calc_but">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Calculate</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QDoubleSpinBox" name="value_input">
-       <property name="frame">
+     <item row="3" column="1">
+      <widget class="QComboBox" name="share_trades_combo">
+       <property name="editable">
         <bool>true</bool>
-       </property>
-       <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-       </property>
-       <property name="specialValueText">
-        <string>£</string>
-       </property>
-       <property name="correctionMode">
-        <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
-       </property>
-       <property name="prefix">
-        <string>£</string>
-       </property>
-       <property name="maximum">
-        <double>999999999.990000009536743</double>
        </property>
       </widget>
      </item>
@@ -172,6 +175,13 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>value_input</tabstop>
+  <tabstop>mix_slider</tabstop>
+  <tabstop>share_trades_combo</tabstop>
+  <tabstop>fund_trades_combo</tabstop>
+  <tabstop>calc_but</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

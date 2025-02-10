@@ -1,5 +1,5 @@
 from PyQt6.QtGui import QIntValidator
-from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtWidgets import QMainWindow, QWidget
 from PyQt6 import uic
 
 import output_window
@@ -7,7 +7,7 @@ import output_window
 
 class SIPPCompare(QMainWindow):
     # Receive instance of PlatformEdit() as parameter
-    def __init__(self, plat_edit_win):
+    def __init__(self, plat_edit_win: QWidget):
         super().__init__()
         # Import Qt Designer UI XML file
         uic.loadUi("gui/main_gui.ui", self)
@@ -39,6 +39,9 @@ class SIPPCompare(QMainWindow):
         self.actionEdit_Platforms.triggered.connect(self.show_platform_edit)
         # Update percentage mix label when slider moved
         self.mix_slider.valueChanged.connect(self.update_slider_lab)
+        #self.value_input.valueChanged.connect(self.check_valid)
+        self.share_trades_combo.currentTextChanged.connect(self.check_valid)
+        self.fund_trades_combo.currentTextChanged.connect(self.check_valid)
 
         # Set validators
         self.share_trades_combo.setValidator(QIntValidator(0, 999))
@@ -49,6 +52,13 @@ class SIPPCompare(QMainWindow):
         slider_val = self.mix_slider.value()
         mix_lab_str = f"Investment mix (funds {slider_val}% / shares {100 - slider_val}%)"
         self.mix_lab.setText(mix_lab_str)
+
+    def check_valid(self):
+        if self.share_trades_combo.currentText() != "" \
+        and self.fund_trades_combo.currentText() != "":
+            self.calc_but.setEnabled(True)
+        else:
+            self.calc_but.setEnabled(False)
 
     # Get variables from platform editor input fields
     def init_variables(self):
@@ -69,7 +79,7 @@ class SIPPCompare(QMainWindow):
         self.fund_plat_fees = 0
         value_num = float(self.value_input.value())
         # Funds/shares mix
-        slider_val = self.mix_slider.value()
+        slider_val: int = self.mix_slider.value()
         funds_value = (slider_val / 100) * value_num
         fund_trades_num = int(self.fund_trades_combo.currentText())
         self.fund_deal_fees = fund_trades_num * self.fund_deal_fee
