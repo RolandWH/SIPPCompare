@@ -30,6 +30,13 @@ class PlatformEdit(QWidget):
         if autofill:
             self.save_but.setEnabled(True)
 
+        self.optional_check_boxes = [
+            self.plat_name_check,
+            self.share_plat_max_fee_check,
+            self.share_deal_reduce_trades_check,
+            self.share_deal_reduce_amount_check
+        ]
+
         # Create main window object, passing this instance as param
         self.main_win = main_window.SIPPCompare(self)
 
@@ -40,6 +47,9 @@ class PlatformEdit(QWidget):
         self.share_plat_fee_box.valueChanged.connect(self.check_valid)
         self.share_deal_fee_box.valueChanged.connect(self.check_valid)
 
+        for check_box in self.optional_check_boxes:
+            check_box.checkStateChanged.connect(self.check_valid)
+
         # Install event filter on input boxes in order to select all text on focus
         self.fund_deal_fee_box.installEventFilter(self)
         self.share_plat_fee_box.installEventFilter(self)
@@ -47,6 +57,9 @@ class PlatformEdit(QWidget):
         self.share_deal_fee_box.installEventFilter(self)
         self.share_deal_reduce_trades_box.installEventFilter(self)
         self.share_deal_reduce_amount_box.installEventFilter(self)
+
+        #for check_box in self.optional_check_boxes:
+        #    check_box.installEventFilter(self)
 
         # Set validators
         # Regex accepts any characters that match [a-Z], [0-9] or _
@@ -79,10 +92,13 @@ class PlatformEdit(QWidget):
 
     # When focus is given to an input box, select all text in it (easier to edit)
     def eventFilter(self, obj: QObject, event: QEvent):
-        if event.type() == QEvent.Type.FocusIn:
+        if obj.staticMetaObject.className() == "QDoubleSpinBox" and event.type() == QEvent.Type.FocusIn:
             # Alternative condition for % suffix - currently unused
             #if obj.value() == 0 or obj == self.share_plat_fee_box:
             QTimer.singleShot(0, obj.selectAll)
+        #if obj in self.optional_check_boxes and \
+        #event.type() == QEvent.Type.FocusIn or event.type() == QEvent.Type.FocusOut:
+         #   print("Working")
         return False
 
     # Check if all required fields have valid (non-zero) input

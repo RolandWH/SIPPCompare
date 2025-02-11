@@ -53,13 +53,6 @@
     <property name="verticalSpacing">
      <number>5</number>
     </property>
-    <item row="0" column="0" colspan="2">
-     <widget class="QLabel" name="plat_name_lab">
-      <property name="text">
-       <string>Platform name</string>
-      </property>
-     </widget>
-    </item>
     <item row="8" column="0" colspan="2">
      <widget class="QLabel" name="share_deal_reduce_amount_lab">
       <property name="text">
@@ -67,59 +60,8 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="2">
-     <widget class="QLineEdit" name="plat_name_box"/>
-    </item>
-    <item row="3" column="0" colspan="2">
-     <widget class="QLabel" name="share_plat_fee_lab">
-      <property name="text">
-       <string>Share platform fee*</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0" colspan="2">
-     <widget class="QLabel" name="share_deal_reduce_trades_lab">
-      <property name="text">
-       <string>Share dealing discount # of trades</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0" colspan="2">
-     <widget class="QLabel" name="share_deal_fee_lab">
-      <property name="text">
-       <string>Share dealing fee*</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="2">
-     <widget class="QLabel" name="fund_deal_fee_lab">
-      <property name="text">
-       <string>Fund dealing fee*</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0" colspan="2">
-     <widget class="QLabel" name="share_plat_max_fee_lab">
-      <property name="text">
-       <string>Share platform fee cap/mth</string>
-      </property>
-     </widget>
-    </item>
     <item row="8" column="2">
      <widget class="QDoubleSpinBox" name="share_deal_reduce_amount_box">
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-      </property>
-      <property name="correctionMode">
-       <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
-      </property>
-      <property name="prefix">
-       <string>£</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="2">
-     <widget class="QDoubleSpinBox" name="share_deal_fee_box">
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -144,16 +86,49 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="2">
-     <widget class="QDoubleSpinBox" name="share_plat_fee_box">
+    <item row="0" column="3">
+     <widget class="QCheckBox" name="plat_name_check">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="2">
+     <widget class="QLabel" name="plat_name_lab">
+      <property name="text">
+       <string>Platform name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="plat_name_box"/>
+    </item>
+    <item row="3" column="3">
+     <widget class="QCheckBox" name="share_plat_fee_check">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QDoubleSpinBox" name="share_deal_fee_box">
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
       <property name="correctionMode">
        <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
       </property>
-      <property name="suffix">
-       <string>%</string>
+      <property name="prefix">
+       <string>£</string>
       </property>
      </widget>
     </item>
@@ -170,6 +145,47 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QLabel" name="fund_deal_fee_lab">
+      <property name="text">
+       <string>Fund dealing fee*</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <widget class="QLabel" name="share_plat_max_fee_lab">
+      <property name="text">
+       <string>Share platform fee cap/mth</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QDoubleSpinBox" name="share_plat_fee_box">
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+      </property>
+      <property name="correctionMode">
+       <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+      </property>
+      <property name="suffix">
+       <string>%</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="3">
+     <widget class="QCheckBox" name="share_deal_reduce_trades_check">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="2">
+     <widget class="QLabel" name="share_deal_fee_lab">
+      <property name="text">
+       <string>Share dealing fee*</string>
+      </property>
+     </widget>
+    </item>
     <item row="7" column="2">
      <widget class="QSpinBox" name="share_deal_reduce_trades_box">
       <property name="buttonSymbols">
@@ -177,6 +193,60 @@
       </property>
       <property name="correctionMode">
        <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0" colspan="2">
+     <widget class="QLabel" name="share_deal_reduce_trades_lab">
+      <property name="text">
+       <string>Share dealing discount # of trades</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="3">
+     <widget class="QCheckBox" name="share_deal_reduce_amount_check">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="3">
+     <widget class="QCheckBox" name="share_deal_fee_check">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="2">
+     <widget class="QLabel" name="share_plat_fee_lab">
+      <property name="text">
+       <string>Share platform fee*</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QCheckBox" name="fund_deal_fee_check">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QCheckBox" name="share_plat_max_fee_check">
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </item>
@@ -221,6 +291,13 @@
   <tabstop>share_deal_reduce_trades_box</tabstop>
   <tabstop>share_deal_reduce_amount_box</tabstop>
   <tabstop>save_but</tabstop>
+  <tabstop>plat_name_check</tabstop>
+  <tabstop>fund_deal_fee_check</tabstop>
+  <tabstop>share_plat_fee_check</tabstop>
+  <tabstop>share_plat_max_fee_check</tabstop>
+  <tabstop>share_deal_fee_check</tabstop>
+  <tabstop>share_deal_reduce_trades_check</tabstop>
+  <tabstop>share_deal_reduce_amount_check</tabstop>
  </tabstops>
  <resources/>
  <connections>
