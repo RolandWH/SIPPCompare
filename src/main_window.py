@@ -40,7 +40,7 @@ class SIPPCompare(QMainWindow):
         self.actionEdit_Platforms.triggered.connect(self.show_platform_edit)
         # Update percentage mix label when slider moved
         self.mix_slider.valueChanged.connect(self.update_slider_lab)
-        #self.value_input.valueChanged.connect(self.check_valid)
+        self.value_input.valueChanged.connect(self.check_valid)
         self.share_trades_combo.currentTextChanged.connect(self.check_valid)
         self.fund_trades_combo.currentTextChanged.connect(self.check_valid)
 
@@ -56,7 +56,8 @@ class SIPPCompare(QMainWindow):
 
     def check_valid(self):
         if self.share_trades_combo.currentText() != "" \
-        and self.fund_trades_combo.currentText() != "":
+        and self.fund_trades_combo.currentText() != "" \
+        and self.value_input.value() != 0:
             self.calc_but.setEnabled(True)
         else:
             self.calc_but.setEnabled(False)
