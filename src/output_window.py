@@ -23,7 +23,12 @@ class OutputWindow(QWidget):
         cur_time = datetime.datetime.now()
         if not os.path.exists("output"):
             os.makedirs("output")
-        filename_str = f"output/{self.platform_name}-{cur_time.year}.{cur_time.month}.{cur_time.day}.txt"
+        filename_str = f"output/"
+        if self.platform_name is not None:
+            filename_str += f"{self.platform_name}"
+        else:
+            filename_str += "Unnamed"
+        filename_str += f"-{cur_time.year}.{cur_time.month}.{cur_time.day}.txt"
         output_file = open(filename_str, "wt", encoding = "utf-8")
         output_file.write(self.results_str)
 
@@ -31,7 +36,10 @@ class OutputWindow(QWidget):
     def display_output(self, fund_plat_fees: float, fund_deal_fees: float,
                        share_plat_fees: float, share_deal_fees: float, plat_name: str):
         self.platform_name = plat_name
-        self.results_str = f"Fees breakdown (Platform \"{self.platform_name}\"):"
+        if self.platform_name is not None:
+            self.results_str = f"Fees breakdown (Platform \"{self.platform_name}\"):"
+        else:
+            self.results_str = f"Fees breakdown:"
 
         self.results_str += "\n\nPlatform fees:"
         # :.2f is used in order to display 2 decimal places (currency form)
