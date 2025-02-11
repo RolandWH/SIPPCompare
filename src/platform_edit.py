@@ -30,17 +30,24 @@ class PlatformEdit(QWidget):
         if autofill:
             self.save_but.setEnabled(True)
 
+        self.required_fields = [
+            self.fund_deal_fee_box,
+            self.share_plat_fee_box,
+            self.share_deal_fee_box
+        ]
+
+        self.optional_fields = [
+            self.plat_name_box,
+            self.share_plat_max_fee_box,
+            self.share_deal_reduce_trades_box,
+            self.share_deal_reduce_amount_box
+        ]
+
         self.optional_check_boxes = [
             self.plat_name_check,
             self.share_plat_max_fee_check,
             self.share_deal_reduce_trades_check,
             self.share_deal_reduce_amount_check
-        ]
-
-        self.required_fields = [
-            self.fund_deal_fee_box,
-            self.share_plat_fee_box,
-            self.share_deal_fee_box
         ]
 
         # Create main window object, passing this instance as param
@@ -49,9 +56,15 @@ class PlatformEdit(QWidget):
         # Handle events
         # NOTE: Signal defined in UI file to close window when save button clicked
         self.save_but.clicked.connect(self.init_variables)
-        self.fund_deal_fee_box.valueChanged.connect(self.check_valid)
-        self.share_plat_fee_box.valueChanged.connect(self.check_valid)
-        self.share_deal_fee_box.valueChanged.connect(self.check_valid)
+
+        for field in self.required_fields:
+            field.valueChanged.connect(self.check_valid)
+
+        for field in self.optional_fields:
+            if field.staticMetaObject.className() == "QLineEdit":
+                field.textChanged.connect(self.check_valid)
+            elif field.staticMetaObject.className() == "QDoubleSpinBox":
+                field.valueChanged.connect(self.check_valid)
 
         for check_box in self.optional_check_boxes:
             check_box.checkStateChanged.connect(self.check_valid)
@@ -98,17 +111,13 @@ class PlatformEdit(QWidget):
 
     # When focus is given to an input box, select all text in it (easier to edit)
     def eventFilter(self, obj: QObject, event: QEvent):
-        if obj.staticMetaObject.className() == "QDoubleSpinBox" and event.type() == QEvent.Type.FocusIn:
+        if event.type() == QEvent.Type.FocusIn:
             # Alternative condition for % suffix - currently unused
             #if obj.value() == 0 or obj == self.share_plat_fee_box:
             QTimer.singleShot(0, obj.selectAll)
-        #if obj in self.optional_check_boxes and \
-        #event.type() == QEvent.Type.FocusIn or event.type() == QEvent.Type.FocusOut:
-         #   print("Working")
         return False
 
     # Check if all required fields have valid (non-zero) input
-    # TODO: Find a better way of doing this if possible
     def check_valid(self):
         valid = True
 
@@ -117,19 +126,21 @@ class PlatformEdit(QWidget):
                 valid = False
 
         for check_box in self.optional_check_boxes:
+            check_box_pos = self.gridLayout.getItemPosition(self.gridLayout.indexOf(check_box))
+            input_box_pos = list(check_box_pos)[:2]
+            input_box_pos[1] -= 1
+            input_box_item = self.gridLayout.itemAtPosition(input_box_pos[0], input_box_pos[1]).widget()
             if check_box.isChecked():
-                check_box_pos = self.gridLayout.getItemPosition(
-                    self.gridLayout.indexOf(check_box)
-                )
-                input_box_pos = list(check_box_pos)[:2]
-                input_box_pos[1] -= 1
-                input_box_item = self.gridLayout.itemAtPosition(input_box_pos[0], input_box_pos[1]).widget()
-                if input_box_item.staticMetaObject.className() == "QLineEdit":
+                input_box_item.setEnabled(True)
+                input_box_type = input_box_item.staticMetaObject.className()
+                if input_box_type == "QLineEdit":
                     if input_box_item.text() == "":
                         valid = False
-                elif input_box_item.staticMetaObject.className() == "QDoubleSpinBox":
+                elif input_box_type == "QDoubleSpinBox" or input_box_type == "QSpinBox":
                     if input_box_item.value() == 0:
                         valid = False
+            else:
+                input_box_item.setEnabled(False)
 
         if valid:
             self.save_but.setEnabled(True)

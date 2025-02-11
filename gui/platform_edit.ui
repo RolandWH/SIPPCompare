@@ -62,6 +62,9 @@
     </item>
     <item row="8" column="2">
      <widget class="QDoubleSpinBox" name="share_deal_reduce_amount_box">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -75,6 +78,9 @@
     </item>
     <item row="4" column="2">
      <widget class="QDoubleSpinBox" name="share_plat_max_fee_box">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -188,6 +194,9 @@
     </item>
     <item row="7" column="2">
      <widget class="QSpinBox" name="share_deal_reduce_trades_box">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
