@@ -1,6 +1,6 @@
 from PyQt6.QtCore import QRegularExpression, QEvent, QObject, QTimer
 from PyQt6.QtGui import QRegularExpressionValidator
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QLayout
 from PyQt6 import uic
 
 import main_window
@@ -35,6 +35,12 @@ class PlatformEdit(QWidget):
             self.share_plat_max_fee_check,
             self.share_deal_reduce_trades_check,
             self.share_deal_reduce_amount_check
+        ]
+
+        self.required_fields = [
+            self.fund_deal_fee_box,
+            self.share_plat_fee_box,
+            self.share_deal_fee_box
         ]
 
         # Create main window object, passing this instance as param
@@ -104,15 +110,26 @@ class PlatformEdit(QWidget):
     # Check if all required fields have valid (non-zero) input
     # TODO: Find a better way of doing this if possible
     def check_valid(self):
-        values = [self.fund_deal_fee_box.value(),
-                  self.share_plat_fee_box.value(),
-                  self.share_deal_fee_box.value()
-                ]
         valid = True
 
-        for value in values:
-            if value == 0:
+        for field in self.required_fields:
+            if field.value() == 0:
                 valid = False
+
+        for check_box in self.optional_check_boxes:
+            if check_box.isChecked():
+                check_box_pos = self.gridLayout.getItemPosition(
+                    self.gridLayout.indexOf(check_box)
+                )
+                input_box_pos = list(check_box_pos)[:2]
+                input_box_pos[1] -= 1
+                input_box_item = self.gridLayout.itemAtPosition(input_box_pos[0], input_box_pos[1]).widget()
+                if input_box_item.staticMetaObject.className() == "QLineEdit":
+                    if input_box_item.text() == "":
+                        valid = False
+                elif input_box_item.staticMetaObject.className() == "QDoubleSpinBox":
+                    if input_box_item.value() == 0:
+                        valid = False
 
         if valid:
             self.save_but.setEnabled(True)
