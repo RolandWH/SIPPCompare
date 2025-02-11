@@ -1,6 +1,6 @@
 from PyQt6.QtCore import QRegularExpression, QEvent, QObject, QTimer
 from PyQt6.QtGui import QRegularExpressionValidator
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QDoubleSpinBox
 from PyQt6 import uic
 
 import main_window
@@ -79,17 +79,6 @@ class PlatformEdit(QWidget):
         # NOTE: Signal defined in UI file to close window when save button clicked
         self.save_but.clicked.connect(self.init_variables)
 
-        # Install event filter on input boxes in order to select all text on focus
-        # TODO: Seems like my eventFilter() override is capturing all events - need to stop this
-        """
-        self.fund_deal_fee_box.installEventFilter(self)
-        self.share_plat_fee_box.installEventFilter(self)
-        self.share_plat_max_fee_box.installEventFilter(self)
-        self.share_deal_fee_box.installEventFilter(self)
-        self.share_deal_reduce_trades_box.installEventFilter(self)
-        self.share_deal_reduce_amount_box.installEventFilter(self)
-        """
-
         # Set validators
         # Regex accepts any characters that match [a-Z], [0-9] or _
         self.plat_name_box.setValidator(
@@ -120,11 +109,12 @@ class PlatformEdit(QWidget):
         self.main_win.show()
 
     # When focus is given to an input box, select all text in it (easier to edit)
-    def eventFilter(self, obj: QObject, event: QEvent):
-        if event.type() == QEvent.Type.FocusIn:
+    def focusInEvent(self, event):
+        print("yay")
+        if event.gotFocus():
             # Alternative condition for % suffix - currently unused
             #if obj.value() == 0 or obj == self.share_plat_fee_box:
-            QTimer.singleShot(0, obj.selectAll)
+            QTimer.singleShot(0, sender.selectAll)
         return False
 
     # This method does multiple things in order to validate the user's inputs:

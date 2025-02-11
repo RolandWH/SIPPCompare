@@ -71,7 +71,7 @@
      </widget>
     </item>
     <item row="5" column="2">
-     <widget class="QDoubleSpinBox" name="share_plat_max_fee_box">
+     <widget class="FastEditQDoubleSpinBox" name="share_plat_max_fee_box">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -97,7 +97,7 @@
      </widget>
     </item>
     <item row="6" column="2">
-     <widget class="QDoubleSpinBox" name="share_deal_fee_box">
+     <widget class="FastEditQDoubleSpinBox" name="share_deal_fee_box">
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -122,12 +122,12 @@
     <item row="5" column="0" colspan="2">
      <widget class="QLabel" name="share_plat_max_fee_lab">
       <property name="text">
-       <string>Share platform fee cap/mth</string>
+       <string>Share platform monthly fee cap</string>
       </property>
      </widget>
     </item>
     <item row="2" column="2">
-     <widget class="QDoubleSpinBox" name="fund_deal_fee_box">
+     <widget class="FastEditQDoubleSpinBox" name="fund_deal_fee_box">
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -147,7 +147,7 @@
      </widget>
     </item>
     <item row="8" column="2">
-     <widget class="QSpinBox" name="share_deal_reduce_trades_box">
+     <widget class="FastEditQSpinBox" name="share_deal_reduce_trades_box">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -200,7 +200,7 @@
      </widget>
     </item>
     <item row="4" column="2">
-     <widget class="QDoubleSpinBox" name="share_plat_fee_box">
+     <widget class="FastEditQDoubleSpinBox" name="share_plat_fee_box">
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -220,7 +220,7 @@
      </widget>
     </item>
     <item row="9" column="2">
-     <widget class="QDoubleSpinBox" name="share_deal_reduce_amount_box">
+     <widget class="FastEditQDoubleSpinBox" name="share_deal_reduce_amount_box">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -283,6 +283,18 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FastEditQDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>widgets/fastedit_spinbox</header>
+  </customwidget>
+  <customwidget>
+   <class>FastEditQSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>widgets/fastedit_spinbox</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>plat_name_box</tabstop>
   <tabstop>fund_deal_fee_box</tabstop>
