@@ -1,6 +1,6 @@
-from PyQt6.QtCore import QRegularExpression, QEvent, QObject, QTimer
+from PyQt6.QtCore import QRegularExpression
 from PyQt6.QtGui import QRegularExpressionValidator
-from PyQt6.QtWidgets import QWidget, QDoubleSpinBox
+from PyQt6.QtWidgets import QWidget
 from PyQt6 import uic
 
 import main_window
@@ -63,15 +63,13 @@ class PlatformEdit(QWidget):
         # Handle events
         for field in self.required_fields:
             field.valueChanged.connect(self.check_valid)
-            field.installEventFilter(self)
 
         for field in self.optional_fields:
             field_type = field.staticMetaObject.className()
             if field_type == "QLineEdit":
                 field.textChanged.connect(self.check_valid)
-            elif field_type == "QDoubleSpinBox" or field_type == "QSpinBox":
+            elif field_type == "FastEditQDoubleSpinBox" or field_type == "FastEditQSpinBox":
                 field.valueChanged.connect(self.check_valid)
-                field.installEventFilter(self)
 
         for check_box in self.optional_check_boxes:
             check_box.checkStateChanged.connect(self.check_valid)
@@ -108,15 +106,6 @@ class PlatformEdit(QWidget):
         # Once user input is received show main window
         self.main_win.show()
 
-    # When focus is given to an input box, select all text in it (easier to edit)
-    def focusInEvent(self, event):
-        print("yay")
-        if event.gotFocus():
-            # Alternative condition for % suffix - currently unused
-            #if obj.value() == 0 or obj == self.share_plat_fee_box:
-            QTimer.singleShot(0, sender.selectAll)
-        return False
-
     # This method does multiple things in order to validate the user's inputs:
     # 1) Check all required fields have a non-zero value
     # 2) If an optional checkbox is toggled: toggle editing of the corresponding field
@@ -149,7 +138,7 @@ class PlatformEdit(QWidget):
                 if input_box_type == "QLineEdit":
                     if input_box_item.text() == "":
                         valid = False
-                elif input_box_type == "QDoubleSpinBox" or input_box_type == "QSpinBox":
+                elif input_box_type == "FastEditQDoubleSpinBox" or input_box_type == "FastEditQSpinBox":
                     if input_box_item.value() == 0:
                         valid = False
             else:
