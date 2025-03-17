@@ -1,5 +1,5 @@
 from PyQt6.QtCore import QRegularExpression
-from PyQt6.QtGui import QRegularExpressionValidator
+from PyQt6.QtGui import QRegularExpressionValidator, QFont
 from PyQt6.QtWidgets import QWidget, QLabel
 from PyQt6 import uic
 
@@ -173,22 +173,27 @@ class PlatformEdit(QWidget):
             return -1
 
         widgets = []
+        font = QFont()
+        font.setPointSize(11)
 
         widgets.append(QLabel(self.gridLayoutWidget_2))
-        widgets[0].setText(f"between {int(self.first_tier_box.value())} and")
+        widgets[0].setFont(font)
 
         widgets.append(FastEditQDoubleSpinBox(self.gridLayoutWidget_2))
         widgets[1].setPrefix("£")
         widgets[1].setMaximum(9999999)
         widgets[1].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
+        widgets[1].setFont(font)
 
         widgets.append(QLabel(self.gridLayoutWidget_2))
         widgets[2].setText(f"the fee is")
+        widgets[2].setFont(font)
 
         widgets.append(FastEditQDoubleSpinBox(self.gridLayoutWidget_2))
         widgets[3].setSuffix("%")
         widgets[3].setMaximum(100)
         widgets[3].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
+        widgets[3].setFont(font)
 
         # TODO: why 28.5?
         self.gridLayoutWidget_2.setGeometry(11, 314, 611, int(round(28.5 * (self.fund_fee_rows + 1), 0)))
@@ -206,7 +211,9 @@ class PlatformEdit(QWidget):
         prev_box_row = cur_box_pos[0] - 1
         prev_box_item = self.gridLayout_2.itemAtPosition(prev_box_row, cur_box_pos[1]).widget()
         cur_label_item = self.gridLayout_2.itemAtPosition(cur_label_pos[0], cur_label_pos[1]).widget()
-        cur_label_item.setText(f"between {int(prev_box_item.value())} and")
+        cur_label_item.setText(f"between £{int(prev_box_item.value())} and")
+
+        # TODO: Tab order
 
     def remove_row(self):
         if not self.fund_fee_rows > 1:
