@@ -125,15 +125,15 @@ class SIPPCompare(QMainWindow):
         if self.share_plat_max_fee is not None:
             if (self.share_plat_fee * shares_value / 12) > self.share_plat_max_fee:
                 self.share_plat_fees = self.share_plat_max_fee * 12
-        else:
-            self.share_plat_fees = self.share_plat_fee * shares_value
+            else:
+                self.share_plat_fees = self.share_plat_fee * shares_value
 
         share_trades_num = int(self.share_trades_combo.currentText())
         if self.share_deal_reduce_trades is not None:
             if (share_trades_num / 12) >= self.share_deal_reduce_trades:
                 self.share_deal_fees = self.share_deal_reduce_amount * share_trades_num
-        else:
-            self.share_deal_fees = self.share_deal_fee * share_trades_num
+            else:
+                self.share_deal_fees = self.share_deal_fee * share_trades_num
 
         self.show_output_win()
 
