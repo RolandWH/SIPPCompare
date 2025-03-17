@@ -80,7 +80,7 @@
     <item row="2" column="3">
      <widget class="QCheckBox" name="fund_deal_fee_check">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="checked">
        <bool>true</bool>

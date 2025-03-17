@@ -34,13 +34,13 @@ class PlatformEdit(QWidget):
             self.save_but.setEnabled(True)
 
         self.required_fields = [
-            self.fund_deal_fee_box,
             self.share_plat_fee_box,
             self.share_deal_fee_box
         ]
 
         self.optional_fields = [
             self.plat_name_box,
+            self.fund_deal_fee_box,
             self.share_plat_max_fee_box,
             self.share_deal_reduce_trades_box,
             self.share_deal_reduce_amount_box
@@ -48,12 +48,14 @@ class PlatformEdit(QWidget):
 
         self.optional_check_boxes = [
             self.plat_name_check,
+            self.fund_deal_fee_check,
             self.share_plat_max_fee_check,
             self.share_deal_reduce_trades_check,
             self.share_deal_reduce_amount_check
         ]
 
         self.check_boxes_ticked = [
+            True,
             True,
             False,
             False,
