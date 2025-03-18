@@ -445,7 +445,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="new_row_but">
+  <widget class="QPushButton" name="add_row_but">
    <property name="geometry">
     <rect>
      <x>532</x>
@@ -464,6 +464,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="del_row_but">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -512,7 +515,7 @@
   <tabstop>first_tier_box</tabstop>
   <tabstop>first_tier_fee_box</tabstop>
   <tabstop>del_row_but</tabstop>
-  <tabstop>new_row_but</tabstop>
+  <tabstop>add_row_but</tabstop>
   <tabstop>save_but</tabstop>
  </tabstops>
  <resources/>

@@ -76,9 +76,12 @@ class PlatformEdit(QWidget):
         for check_box in self.optional_check_boxes:
             check_box.checkStateChanged.connect(self.check_valid)
 
+        self.first_tier_box.valueChanged.connect(self.check_valid)
+        self.first_tier_box.valueChanged.connect(self.update_tier_labels)
+
         # NOTE: Signal defined in UI file to close window when save button clicked
         self.save_but.clicked.connect(self.init_variables)
-        self.new_row_but.clicked.connect(self.add_row)
+        self.add_row_but.clicked.connect(self.add_row)
         self.del_row_but.clicked.connect(self.remove_row)
 
         # Set validators
@@ -105,6 +108,10 @@ class PlatformEdit(QWidget):
         # If debugging, save time by hardcoding
         if self.autofill:
             self.plat_name                  = "AJBell"
+            self.fund_plat_fee              = [
+                                            [0, 250000,     1000000,    2000000],
+                                            [0, 0.25,       0.1,        0.05]
+                                        ]
             self.fund_deal_fee              = 1.50
             self.share_plat_fee             = 0.0025
             self.share_plat_max_fee         = 3.50
@@ -134,6 +141,7 @@ class PlatformEdit(QWidget):
     # It's also called when any field emits a textChanged() or valueChanged() signal
     def check_valid(self):
         valid = True
+        tiers_valid = True
 
         # Check all required fields have a non-zero value
         for field in self.required_fields:
@@ -163,10 +171,33 @@ class PlatformEdit(QWidget):
                 input_box_item.setEnabled(False)
                 self.check_boxes_ticked[i] = False
 
-        if valid:
+        if self.fund_fee_rows > 1:
+            if self.widgets_list_list[0][1].value() <= self.first_tier_box.value():
+                tiers_valid = False
+
+        for i in range(len(self.widgets_list_list) - 1, 0, -1):
+            if self.widgets_list_list[i][1].value() <= self.widgets_list_list[i-1][1].value():
+                tiers_valid = False
+                print("sad :(")
+
+        if tiers_valid:
+            self.add_row_but.setEnabled(True)
+        else:
+            self.add_row_but.setEnabled(False)
+
+        if valid and tiers_valid:
             self.save_but.setEnabled(True)
         else:
             self.save_but.setEnabled(False)
+
+    def update_tier_labels(self):
+        if self.fund_fee_rows > 1:
+            prev_value = self.first_tier_box.value()
+            self.widgets_list_list[0][0].setText(f"between £{int(prev_value)} and")
+
+        for i in range(len(self.widgets_list_list) - 1, 0, -1):
+            prev_value = self.widgets_list_list[i-1][1].value()
+            self.widgets_list_list[i][0].setText(f"between £{int(prev_value)} and")
 
     def add_row(self):
         if self.fund_fee_rows > 5:
@@ -184,6 +215,8 @@ class PlatformEdit(QWidget):
         widgets[1].setMaximum(9999999)
         widgets[1].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
         widgets[1].setFont(font)
+        widgets[1].valueChanged.connect(self.check_valid)
+        widgets[1].valueChanged.connect(self.update_tier_labels)
 
         widgets.append(QLabel(self.gridLayoutWidget_2))
         widgets[2].setText(f"the fee is")
@@ -213,18 +246,29 @@ class PlatformEdit(QWidget):
         cur_label_item = self.gridLayout_2.itemAtPosition(cur_label_pos[0], cur_label_pos[1]).widget()
         cur_label_item.setText(f"between £{int(prev_box_item.value())} and")
 
+        if self.fund_fee_rows > 1:
+            self.del_row_but.setEnabled(True)
+
+        if self.fund_fee_rows > 5:
+            self.add_row_but.setEnabled(False)
+
+        self.check_valid()
+
         # TODO: Tab order
 
     def remove_row(self):
-        if not self.fund_fee_rows > 1:
-            return -1
-
         for widget in self.widgets_list_list[self.fund_fee_rows - 2]:
             self.gridLayout_2.removeWidget(widget)
             widget.hide()
         self.widgets_list_list.pop()
         self.fund_fee_rows -= 1
         self.gridLayoutWidget_2.setGeometry(11, 314, 611, int(round(28.5 * self.fund_fee_rows, 0)))
+
+        if self.fund_fee_rows < 2:
+            self.del_row_but.setEnabled(False)
+
+        if self.fund_fee_rows < 6:
+            self.add_row_but.setEnabled(True)
 
     # Getter functions (is this necessary? maybe directly reading class vars would be best...)
     def get_optional_boxes(self):
