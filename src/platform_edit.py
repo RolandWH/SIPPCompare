@@ -5,13 +5,14 @@ from PyQt6 import uic
 
 from widgets.fastedit_spinbox import FastEditQDoubleSpinBox
 import main_window
+import resource_finder
 
 
 class PlatformEdit(QWidget):
     def __init__(self, autofill: bool):
         super().__init__()
         # Import Qt Designer UI XML file
-        uic.loadUi("gui/platform_edit.ui", self)
+        uic.loadUi(resource_finder.get_res_path("gui/platform_edit.ui"), self)
 
         # Initialise class variables
         # Create main window object, passing this instance as param

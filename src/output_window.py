@@ -4,12 +4,14 @@ from PyQt6 import uic
 import datetime
 import os
 
+import resource_finder
+
 
 class OutputWindow(QWidget):
     def __init__(self):
         super().__init__()
         # Import Qt Designer UI XML file
-        uic.loadUi("gui/output_window.ui", self)
+        uic.loadUi(resource_finder.get_res_path("gui/output_window.ui"), self)
 
         # Initialise class variables
         self.results_str = ""

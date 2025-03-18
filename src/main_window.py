@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QMainWindow, QWidget
 from PyQt6 import uic
 
 import output_window
+import resource_finder
 
 
 class SIPPCompare(QMainWindow):
@@ -10,7 +11,7 @@ class SIPPCompare(QMainWindow):
     def __init__(self, plat_edit_win: QWidget):
         super().__init__()
         # Import Qt Designer UI XML file
-        uic.loadUi("gui/main_gui.ui", self)
+        uic.loadUi(resource_finder.get_res_path("gui/main_gui.ui"), self)
 
         # Initialise class variables
         # Inputs
