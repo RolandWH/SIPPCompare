@@ -6,21 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>498</width>
-    <height>303</height>
+    <width>630</width>
+    <height>567</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>498</width>
-    <height>303</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>498</width>
-    <height>303</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Platform Editor</string>
@@ -28,10 +16,10 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>20</y>
-     <width>461</width>
-     <height>243</height>
+     <width>611</width>
+     <height>241</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -75,6 +63,11 @@
       <property name="enabled">
        <bool>false</bool>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -92,7 +85,7 @@
     <item row="2" column="3">
      <widget class="QCheckBox" name="fund_deal_fee_check">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="checked">
        <bool>true</bool>
@@ -101,6 +94,11 @@
     </item>
     <item row="6" column="2">
      <widget class="FastEditQDoubleSpinBox" name="share_deal_fee_box">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -117,6 +115,11 @@
     </item>
     <item row="8" column="0" colspan="2">
      <widget class="QLabel" name="share_deal_reduce_trades_lab">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Share dealing discount # of trades</string>
       </property>
@@ -127,6 +130,11 @@
     </item>
     <item row="5" column="0" colspan="2">
      <widget class="QLabel" name="share_plat_max_fee_lab">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Share platform monthly fee cap</string>
       </property>
@@ -134,6 +142,11 @@
     </item>
     <item row="2" column="2">
      <widget class="FastEditQDoubleSpinBox" name="fund_deal_fee_box">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -150,6 +163,11 @@
     </item>
     <item row="6" column="0" colspan="2">
      <widget class="QLabel" name="share_deal_fee_lab">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Share dealing fee*</string>
       </property>
@@ -159,6 +177,11 @@
      <widget class="FastEditQSpinBox" name="share_deal_reduce_trades_box">
       <property name="enabled">
        <bool>false</bool>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
@@ -186,6 +209,11 @@
     </item>
     <item row="2" column="0" colspan="2">
      <widget class="QLabel" name="fund_deal_fee_lab">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Fund dealing fee*</string>
       </property>
@@ -195,10 +223,21 @@
      <widget class="QCheckBox" name="share_plat_max_fee_check"/>
     </item>
     <item row="0" column="2">
-     <widget class="QLineEdit" name="plat_name_box"/>
+     <widget class="QLineEdit" name="plat_name_box">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+     </widget>
     </item>
     <item row="9" column="0" colspan="2">
      <widget class="QLabel" name="share_deal_reduce_amount_lab">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Share dealing discount amount</string>
       </property>
@@ -206,6 +245,11 @@
     </item>
     <item row="4" column="0" colspan="2">
      <widget class="QLabel" name="share_plat_fee_lab">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Share platform fee*</string>
       </property>
@@ -213,6 +257,11 @@
     </item>
     <item row="4" column="2">
      <widget class="FastEditQDoubleSpinBox" name="share_plat_fee_box">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
       </property>
@@ -229,6 +278,11 @@
     </item>
     <item row="0" column="0" colspan="2">
      <widget class="QLabel" name="plat_name_lab">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Platform name</string>
       </property>
@@ -238,6 +292,11 @@
      <widget class="FastEditQDoubleSpinBox" name="share_deal_reduce_amount_box">
       <property name="enabled">
        <bool>false</bool>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
@@ -261,11 +320,16 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>270</y>
+     <x>482</x>
+     <y>534</y>
      <width>141</width>
      <height>24</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Save</string>
@@ -274,8 +338,8 @@
   <widget class="QLabel" name="req_field_lab">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>280</y>
+     <x>8</x>
+     <y>262</y>
      <width>191</width>
      <height>21</height>
     </rect>
@@ -287,7 +351,7 @@
   <widget class="QLabel" name="active_lab">
    <property name="geometry">
     <rect>
-     <x>437</x>
+     <x>577</x>
      <y>10</y>
      <width>61</width>
      <height>16</height>
@@ -298,6 +362,147 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>309</y>
+     <width>611</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <property name="verticalSpacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="3">
+     <widget class="FastEditQDoubleSpinBox" name="first_tier_fee_box">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+      </property>
+      <property name="correctionMode">
+       <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+      </property>
+      <property name="suffix">
+       <string>%</string>
+      </property>
+      <property name="maximum">
+       <double>100.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="first_tier_lab">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>on the first</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="first_tier_fee_lab">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>the fee is</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="FastEditQDoubleSpinBox" name="first_tier_box">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+      </property>
+      <property name="correctionMode">
+       <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+      </property>
+      <property name="prefix">
+       <string>£</string>
+      </property>
+      <property name="maximum">
+       <double>9999999.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="add_row_but">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>532</x>
+     <y>481</y>
+     <width>91</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Add row</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="del_row_but">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>481</y>
+     <width>91</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Remove row</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="val_above_lab">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>479</y>
+     <width>421</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>on the value above £ there is no charge</string>
    </property>
   </widget>
  </widget>
@@ -321,7 +526,6 @@
   <tabstop>share_deal_fee_box</tabstop>
   <tabstop>share_deal_reduce_trades_box</tabstop>
   <tabstop>share_deal_reduce_amount_box</tabstop>
-  <tabstop>save_but</tabstop>
   <tabstop>plat_name_check</tabstop>
   <tabstop>fund_deal_fee_check</tabstop>
   <tabstop>share_plat_fee_check</tabstop>
@@ -329,6 +533,11 @@
   <tabstop>share_deal_fee_check</tabstop>
   <tabstop>share_deal_reduce_trades_check</tabstop>
   <tabstop>share_deal_reduce_amount_check</tabstop>
+  <tabstop>first_tier_box</tabstop>
+  <tabstop>first_tier_fee_box</tabstop>
+  <tabstop>del_row_but</tabstop>
+  <tabstop>add_row_but</tabstop>
+  <tabstop>save_but</tabstop>
  </tabstops>
  <resources/>
  <connections>

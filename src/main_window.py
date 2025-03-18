@@ -66,7 +66,6 @@ class SIPPCompare(QMainWindow):
     def init_variables(self):
         self.optional_boxes     = self.platform_win.get_optional_boxes()
         self.fund_plat_fee      = self.platform_win.get_fund_plat_fee()
-        self.fund_deal_fee      = self.platform_win.get_fund_deal_fee()
         self.share_plat_fee     = self.platform_win.get_share_plat_fee()
         self.share_deal_fee     = self.platform_win.get_share_deal_fee()
 
@@ -77,16 +76,21 @@ class SIPPCompare(QMainWindow):
             self.plat_name = None
 
         if self.optional_boxes[1]:
+            self.fund_deal_fee = self.platform_win.get_fund_deal_fee()
+        else:
+            self.fund_deal_fee = None
+
+        if self.optional_boxes[2]:
             self.share_plat_max_fee = self.platform_win.get_share_plat_max_fee()
         else:
             self.share_plat_max_fee = None
 
-        if self.optional_boxes[2]:
+        if self.optional_boxes[3]:
             self.share_deal_reduce_trades = self.platform_win.get_share_deal_reduce_trades()
         else:
             self.share_deal_reduce_trades = None
 
-        if self.optional_boxes[3]:
+        if self.optional_boxes[4]:
             self.share_deal_reduce_amount = self.platform_win.get_share_deal_reduce_amount()
         else:
             self.share_deal_reduce_amount = None
@@ -101,7 +105,8 @@ class SIPPCompare(QMainWindow):
         slider_val: int = self.mix_slider.value()
         funds_value = (slider_val / 100) * value_num
         fund_trades_num = int(self.fund_trades_combo.currentText())
-        self.fund_deal_fees = fund_trades_num * self.fund_deal_fee
+        if self.fund_deal_fee is not None:
+            self.fund_deal_fees = fund_trades_num * self.fund_deal_fee
 
         for i in range(1, len(self.fund_plat_fee[0])):
             band = self.fund_plat_fee[0][i]
@@ -120,15 +125,15 @@ class SIPPCompare(QMainWindow):
         if self.share_plat_max_fee is not None:
             if (self.share_plat_fee * shares_value / 12) > self.share_plat_max_fee:
                 self.share_plat_fees = self.share_plat_max_fee * 12
-        else:
-            self.share_plat_fees = self.share_plat_fee * shares_value
+            else:
+                self.share_plat_fees = self.share_plat_fee * shares_value
 
         share_trades_num = int(self.share_trades_combo.currentText())
         if self.share_deal_reduce_trades is not None:
             if (share_trades_num / 12) >= self.share_deal_reduce_trades:
                 self.share_deal_fees = self.share_deal_reduce_amount * share_trades_num
-        else:
-            self.share_deal_fees = self.share_deal_fee * share_trades_num
+            else:
+                self.share_deal_fees = self.share_deal_fee * share_trades_num
 
         self.show_output_win()
 
