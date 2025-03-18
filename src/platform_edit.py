@@ -187,7 +187,7 @@ class PlatformEdit(QWidget):
             if self.widgets_list_list[i][3].value() == 0:
                 tiers_valid = False
 
-        if tiers_valid:
+        if tiers_valid and self.fund_fee_rows < 6:
             self.add_row_but.setEnabled(True)
         else:
             self.add_row_but.setEnabled(False)
@@ -206,10 +206,13 @@ class PlatformEdit(QWidget):
             prev_value = self.widgets_list_list[i-1][1].value()
             self.widgets_list_list[i][0].setText(f"between £{int(prev_value)} and")
 
-    def add_row(self):
-        if self.fund_fee_rows > 5:
-            return -1
+        if self.fund_fee_rows > 1:
+            max_band = self.widgets_list_list[self.fund_fee_rows - 2][1].value()
+        else:
+            max_band = self.first_tier_box.value()
+        self.val_above_lab.setText(f"on the value above £{int(max_band)} there is no charge")
 
+    def add_row(self):
         widgets = []
         font = QFont()
         font.setPointSize(11)
@@ -237,7 +240,7 @@ class PlatformEdit(QWidget):
         widgets[3].valueChanged.connect(self.check_valid)
 
         # TODO: why 28.5?
-        self.gridLayoutWidget_2.setGeometry(11, 314, 611, int(round(28.5 * (self.fund_fee_rows + 1), 0)))
+        self.gridLayoutWidget_2.setGeometry(11, 309, 611, int(round(28.5 * (self.fund_fee_rows + 1), 0)))
         for i in range(len(widgets)):
             self.gridLayout_2.addWidget(widgets[i], self.fund_fee_rows, i, 1, 1)
 
@@ -270,7 +273,7 @@ class PlatformEdit(QWidget):
             widget.hide()
         self.widgets_list_list.pop()
         self.fund_fee_rows -= 1
-        self.gridLayoutWidget_2.setGeometry(11, 314, 611, int(round(28.5 * self.fund_fee_rows, 0)))
+        self.gridLayoutWidget_2.setGeometry(11, 309, 611, int(round(28.5 * self.fund_fee_rows, 0)))
 
         if self.fund_fee_rows < 2:
             self.del_row_but.setEnabled(False)
@@ -279,6 +282,7 @@ class PlatformEdit(QWidget):
             self.add_row_but.setEnabled(True)
 
         self.check_valid()
+        self.update_tier_labels()
 
     # Getter functions (is this necessary? maybe directly reading class vars would be best...)
     def get_optional_boxes(self):
