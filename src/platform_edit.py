@@ -270,6 +270,8 @@ class PlatformEdit(QWidget):
         if self.fund_fee_rows < 6:
             self.add_row_but.setEnabled(True)
 
+        self.check_valid()
+
     # Getter functions (is this necessary? maybe directly reading class vars would be best...)
     def get_optional_boxes(self):
         return self.check_boxes_ticked
