@@ -171,14 +171,20 @@ class PlatformEdit(QWidget):
                 input_box_item.setEnabled(False)
                 self.check_boxes_ticked[i] = False
 
+        if self.first_tier_fee_box.value() == 0:
+            tiers_valid = False
+
         if self.fund_fee_rows > 1:
             if self.widgets_list_list[0][1].value() <= self.first_tier_box.value():
+                tiers_valid = False
+            if self.widgets_list_list[0][3].value() == 0:
                 tiers_valid = False
 
         for i in range(len(self.widgets_list_list) - 1, 0, -1):
             if self.widgets_list_list[i][1].value() <= self.widgets_list_list[i-1][1].value():
                 tiers_valid = False
-                print("sad :(")
+            if self.widgets_list_list[i][3].value() == 0:
+                tiers_valid = False
 
         if tiers_valid:
             self.add_row_but.setEnabled(True)
@@ -227,6 +233,7 @@ class PlatformEdit(QWidget):
         widgets[3].setMaximum(100)
         widgets[3].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
         widgets[3].setFont(font)
+        widgets[3].valueChanged.connect(self.check_valid)
 
         # TODO: why 28.5?
         self.gridLayoutWidget_2.setGeometry(11, 314, 611, int(round(28.5 * (self.fund_fee_rows + 1), 0)))
