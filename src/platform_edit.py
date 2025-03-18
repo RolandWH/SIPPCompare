@@ -77,6 +77,7 @@ class PlatformEdit(QWidget):
             check_box.checkStateChanged.connect(self.check_valid)
 
         self.first_tier_box.valueChanged.connect(self.check_valid)
+        self.first_tier_fee_box.valueChanged.connect(self.check_valid)
         self.first_tier_box.valueChanged.connect(self.update_tier_labels)
 
         # NOTE: Signal defined in UI file to close window when save button clicked

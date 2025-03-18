@@ -446,6 +446,9 @@
    </layout>
   </widget>
   <widget class="QPushButton" name="add_row_but">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>532</x>
