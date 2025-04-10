@@ -1,4 +1,4 @@
-from PyQt6.QtGui import QIntValidator
+from PyQt6.QtGui import QIntValidator, QIcon
 from PyQt6.QtWidgets import QMainWindow, QWidget
 from PyQt6 import uic
 
@@ -12,6 +12,7 @@ class SIPPCompare(QMainWindow):
         super().__init__()
         # Import Qt Designer UI XML file
         uic.loadUi(resource_finder.get_res_path("gui/main_gui.ui"), self)
+        self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
         # Initialise class variables
         # Inputs

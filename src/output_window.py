@@ -1,3 +1,4 @@
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QWidget
 from PyQt6 import uic
 
@@ -12,6 +13,7 @@ class OutputWindow(QWidget):
         super().__init__()
         # Import Qt Designer UI XML file
         uic.loadUi(resource_finder.get_res_path("gui/output_window.ui"), self)
+        self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
         # Initialise class variables
         self.results_str = ""

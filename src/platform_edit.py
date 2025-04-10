@@ -1,5 +1,5 @@
 from PyQt6.QtCore import QRegularExpression
-from PyQt6.QtGui import QRegularExpressionValidator, QFont
+from PyQt6.QtGui import QRegularExpressionValidator, QFont, QIcon
 from PyQt6.QtWidgets import QWidget, QLabel
 from PyQt6 import uic
 
@@ -13,6 +13,7 @@ class PlatformEdit(QWidget):
         super().__init__()
         # Import Qt Designer UI XML file
         uic.loadUi(resource_finder.get_res_path("gui/platform_edit.ui"), self)
+        self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
         # Initialise class variables
         # Create main window object, passing this instance as param
