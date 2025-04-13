@@ -121,6 +121,7 @@ class PlatformEdit(QWidget):
             self.share_deal_fee             = 5.00
             self.share_deal_reduce_trades   = 10
             self.share_deal_reduce_amount   = 3.50
+            self.check_boxes_ticked = [True, True, True, True, True]
         else:
             self.plat_name                  = self.plat_name_box.text()
             self.fund_plat_fee              = self.create_plat_fee_struct()
