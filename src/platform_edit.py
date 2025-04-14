@@ -93,7 +93,7 @@ class PlatformEdit(QWidget):
             QRegularExpressionValidator(QRegularExpression("\\w*"))
         )
 
-    def create_plat_fee_struct(self):
+    def create_plat_fee_struct(self) -> list:
         plat_fee_struct = [[0], [0]]
         plat_fee_struct[0].append(self.first_tier_box.value())
         plat_fee_struct[1].append(self.first_tier_fee_box.value())

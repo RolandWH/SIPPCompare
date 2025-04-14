@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlatformRename</class>
+ <widget class="QWidget" name="PlatformRename">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>90</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Rename Platform</string>
+  </property>
+  <widget class="QPushButton" name="rename_plat_ok_but">
+   <property name="geometry">
+    <rect>
+     <x>221</x>
+     <y>62</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="rename_plat_lab">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>10</y>
+     <width>191</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enter a new name for the platform</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="rename_plat_box">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>34</y>
+     <width>287</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

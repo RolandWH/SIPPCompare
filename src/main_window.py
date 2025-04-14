@@ -3,7 +3,9 @@ from PyQt6.QtWidgets import QMainWindow, QWidget
 from PyQt6 import uic
 
 import output_window
+import platform_list
 import resource_finder
+import db_handler
 
 
 class SIPPCompare(QMainWindow):
@@ -33,13 +35,16 @@ class SIPPCompare(QMainWindow):
         self.share_deal_fees    = 0.0
 
         # Create window objects
+        self.db = db_handler.DBHandler()
         self.platform_win = plat_edit_win
+        self.platform_list_win = platform_list.PlatformList(self.db)
         self.output_win = output_window.OutputWindow()
 
         # Handle events
         self.calc_but.clicked.connect(self.calculate_fees)
         # Menu bar entry (File -> Edit Platforms)
-        self.actionEdit_Platforms.triggered.connect(self.show_platform_edit)
+        #self.actionEdit_Platforms.triggered.connect(self.show_platform_edit)
+        self.actionList_Platforms.triggered.connect(self.show_platform_list)
         # Update percentage mix label when slider moved
         self.mix_slider.valueChanged.connect(self.update_slider_lab)
         self.value_input.valueChanged.connect(self.check_valid)
@@ -49,6 +54,15 @@ class SIPPCompare(QMainWindow):
         # Set validators
         self.share_trades_combo.setValidator(QIntValidator(0, 999))
         self.fund_trades_combo.setValidator(QIntValidator(0, 99))
+
+        # Restore last session
+        prev_session_data = self.db.retrieve_user_details()
+        if "NO_RECORD" not in prev_session_data:
+            self.value_input.setValue(prev_session_data["pension_val"])
+            self.mix_slider.setValue(prev_session_data["slider_val"])
+            self.share_trades_combo.setCurrentText(str(prev_session_data["share_trades"]))
+            self.fund_trades_combo.setCurrentText(str(prev_session_data["fund_trades"]))
+            self.calc_but.setFocus()
 
     # Display slider position as mix between two nums (funds/shares)
     def update_slider_lab(self):
@@ -100,13 +114,18 @@ class SIPPCompare(QMainWindow):
     # Calculate fees
     def calculate_fees(self):
         self.init_variables()
+
         # Set to zero each time to avoid persistence
         self.fund_plat_fees = 0
+
+        # Get user input
         value_num = float(self.value_input.value())
-        # Funds/shares mix
         slider_val: int = self.mix_slider.value()
-        funds_value = (slider_val / 100) * value_num
         fund_trades_num = int(self.fund_trades_combo.currentText())
+        share_trades_num = int(self.share_trades_combo.currentText())
+
+        # Funds/shares mix
+        funds_value = (slider_val / 100) * value_num
         if self.fund_deal_fee is not None:
             self.fund_deal_fees = fund_trades_num * self.fund_deal_fee
 
@@ -130,13 +149,13 @@ class SIPPCompare(QMainWindow):
             else:
                 self.share_plat_fees = self.share_plat_fee * shares_value
 
-        share_trades_num = int(self.share_trades_combo.currentText())
         if self.share_deal_reduce_trades is not None:
             if (share_trades_num / 12) >= self.share_deal_reduce_trades:
                 self.share_deal_fees = self.share_deal_reduce_amount * share_trades_num
             else:
                 self.share_deal_fees = self.share_deal_fee * share_trades_num
 
+        self.db.write_user_details(value_num, slider_val, share_trades_num, fund_trades_num)
         self.show_output_win()
 
     # Show the output window - this func is called from calculate_fee()
@@ -151,3 +170,6 @@ class SIPPCompare(QMainWindow):
     # Show the platform editor window (currently run-time only)
     def show_platform_edit(self):
         self.platform_win.show()
+
+    def show_platform_list(self):
+        self.platform_list_win.show()
