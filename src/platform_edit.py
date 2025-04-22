@@ -4,36 +4,30 @@ from PyQt6.QtWidgets import QWidget, QLabel
 from PyQt6 import uic
 
 from widgets.fastedit_spinbox import FastEditQDoubleSpinBox
+from data_struct import Platform
 import main_window
 import resource_finder
 
 
 class PlatformEdit(QWidget):
-    def __init__(self, autofill: bool):
+    def __init__(self, plat: Platform):
         super().__init__()
         # Import Qt Designer UI XML file
         uic.loadUi(resource_finder.get_res_path("gui/platform_edit.ui"), self)
         self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
         # Initialise class variables
-        # Create main window object, passing this instance as param
-        self.main_win = main_window.SIPPCompare(self)
-
-        self.fund_plat_fee = []
-        self.plat_name = ""
-        self.fund_deal_fee = 0.0
-        self.share_plat_fee = 0.0
-        self.share_plat_max_fee = 0.0
-        self.share_deal_fee = 0.0
-        self.share_deal_reduce_trades = 0.0
-        self.share_deal_reduce_amount = 0.0
+        self.plat = plat
+        self.fund_plat_fee = self.plat.fund_plat_fee
         self.widgets_list_list = []
 
-        self.fund_fee_rows = 1
+        self.fund_fee_rows = len(self.plat.fund_plat_fee[0])
+        """
         # Debugging feature: set with "--DEBUG_AUTOFILL" cmd argument
         self.autofill = autofill
         if autofill:
             self.save_but.setEnabled(True)
+        """
 
         self.required_fields = [
             self.share_plat_fee_box,
@@ -63,6 +57,54 @@ class PlatformEdit(QWidget):
             False,
             False
         ]
+
+        if self.plat.plat_name is None:
+            self.check_boxes_ticked[0] = False
+            self.plat_name_check.setChecked(False)
+        else:
+            self.check_boxes_ticked[0] = True
+            self.plat_name_check.setChecked(True)
+            self.plat_name_box.setText(self.plat.plat_name)
+
+        if self.plat.fund_deal_fee is None:
+            self.check_boxes_ticked[1] = False
+            self.plat_fund_deal_fee_check.setChecked(False)
+        else:
+            self.check_boxes_ticked[1] = True
+            self.fund_deal_fee_check.setChecked(True)
+            self.fund_deal_fee_box.setValue(self.plat.fund_deal_fee)
+
+        self.share_plat_fee_box.setValue(self.plat.share_plat_fee * 100)
+
+        if self.plat.share_plat_max_fee is None:
+            self.check_boxes_ticked[2] = False
+            self.share_plat_max_fee_check.setChecked(False)
+        else:
+            self.check_boxes_ticked[2] = True
+            self.share_plat_max_fee_check.setChecked(True)
+            self.share_plat_max_fee_box.setValue(self.plat.share_plat_max_fee)
+
+        self.share_deal_fee_box.setValue(self.plat.share_deal_fee)
+
+        if self.plat.share_deal_reduce_trades is None:
+            self.check_boxes_ticked[3] = False
+            self.share_deal_reduce_trades_check.setChecked(False)
+        else:
+            self.check_boxes_ticked[3] = True
+            self.share_deal_reduce_trades_check.setChecked(True)
+            self.share_deal_reduce_trades_box.setValue(int(self.plat.share_deal_reduce_trades))
+
+        if self.plat.share_deal_reduce_trades is None:
+            self.check_boxes_ticked[4] = False
+            self.share_deal_reduce_amount_check.setChecked(False)
+        else:
+            self.check_boxes_ticked[4] = True
+            self.share_deal_reduce_amount_check.setChecked(True)
+            self.share_deal_reduce_amount_box.setValue(self.plat.share_deal_reduce_amount)
+
+        self.first_tier_box.setValue(self.plat.fund_plat_fee[0][1])
+        self.first_tier_fee_box.setValue(self.plat.fund_plat_fee[1][1])
+        self.add_row(loading=True)
 
         # Handle events
         for field in self.required_fields:
@@ -108,6 +150,7 @@ class PlatformEdit(QWidget):
 
     # Get fee structure variables from user input when "Save" clicked
     def init_variables(self):
+        """
         # If debugging, save time by hardcoding
         if self.autofill:
             self.plat_name                  = "AJBell"
@@ -123,14 +166,15 @@ class PlatformEdit(QWidget):
             self.share_deal_reduce_amount   = 3.50
             self.check_boxes_ticked = [True, True, True, True, True]
         else:
-            self.plat_name                  = self.plat_name_box.text()
-            self.fund_plat_fee              = self.create_plat_fee_struct()
-            self.fund_deal_fee              = float(self.fund_deal_fee_box.value())
-            self.share_plat_fee             = float(self.share_plat_fee_box.value()) / 100
-            self.share_plat_max_fee         = float(self.share_plat_max_fee_box.value())
-            self.share_deal_fee             = float(self.share_deal_fee_box.value())
-            self.share_deal_reduce_trades   = float(self.share_deal_reduce_trades_box.value())
-            self.share_deal_reduce_amount   = float(self.share_deal_reduce_amount_box.value())
+        """
+        self.plat_name                  = self.plat_name_box.text()
+        self.fund_plat_fee              = self.create_plat_fee_struct()
+        self.fund_deal_fee              = float(self.fund_deal_fee_box.value())
+        self.share_plat_fee             = float(self.share_plat_fee_box.value()) / 100
+        self.share_plat_max_fee         = float(self.share_plat_max_fee_box.value())
+        self.share_deal_fee             = float(self.share_deal_fee_box.value())
+        self.share_deal_reduce_trades   = float(self.share_deal_reduce_trades_box.value())
+        self.share_deal_reduce_amount   = float(self.share_deal_reduce_amount_box.value())
 
         # Once user input is received show main window
         self.main_win.show()
@@ -215,50 +259,63 @@ class PlatformEdit(QWidget):
             max_band = self.first_tier_box.value()
         self.val_above_lab.setText(f"on the value above £{int(max_band)} there is no charge")
 
-    def add_row(self):
+    def add_row(self, loading: bool = False):
+        if loading:
+            rows_needed = self.fund_fee_rows
+        else:
+            rows_needed = 1
+
         widgets = []
-        font = QFont()
-        font.setPointSize(11)
+        for x in range(rows_needed):
+            font = QFont()
+            font.setPointSize(11)
 
-        widgets.append(QLabel(self.gridLayoutWidget_2))
-        widgets[0].setFont(font)
+            widgets.append(QLabel(self.gridLayoutWidget_2))
+            widgets[0].setFont(font)
 
-        widgets.append(FastEditQDoubleSpinBox(self.gridLayoutWidget_2))
-        widgets[1].setPrefix("£")
-        widgets[1].setMaximum(9999999)
-        widgets[1].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
-        widgets[1].setFont(font)
-        widgets[1].valueChanged.connect(self.check_valid)
-        widgets[1].valueChanged.connect(self.update_tier_labels)
+            widgets.append(FastEditQDoubleSpinBox(self.gridLayoutWidget_2))
+            widgets[1].setPrefix("£")
+            widgets[1].setMaximum(9999999)
+            widgets[1].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
+            widgets[1].setFont(font)
+            if loading:
+                widgets[1].setValue(self.plat.fund_plat_fee[0][x+1])
+            widgets[1].valueChanged.connect(self.check_valid)
+            widgets[1].valueChanged.connect(self.update_tier_labels)
 
-        widgets.append(QLabel(self.gridLayoutWidget_2))
-        widgets[2].setText(f"the fee is")
-        widgets[2].setFont(font)
+            widgets.append(QLabel(self.gridLayoutWidget_2))
+            widgets[2].setText(f"the fee is")
+            widgets[2].setFont(font)
 
-        widgets.append(FastEditQDoubleSpinBox(self.gridLayoutWidget_2))
-        widgets[3].setSuffix("%")
-        widgets[3].setMaximum(100)
-        widgets[3].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
-        widgets[3].setFont(font)
-        widgets[3].valueChanged.connect(self.check_valid)
+            widgets.append(FastEditQDoubleSpinBox(self.gridLayoutWidget_2))
+            widgets[3].setSuffix("%")
+            widgets[3].setMaximum(100)
+            widgets[3].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
+            widgets[3].setFont(font)
+            if loading:
+                widgets[3].setValue(self.plat.fund_plat_fee[1][x+1])
+            widgets[3].valueChanged.connect(self.check_valid)
 
-        # TODO: why 28.5?
-        self.gridLayoutWidget_2.setGeometry(11, 309, 611, int(round(28.5 * (self.fund_fee_rows + 1), 0)))
-        for i in range(len(widgets)):
-            self.gridLayout_2.addWidget(widgets[i], self.fund_fee_rows, i, 1, 1)
+            # TODO: why 28.5?
+            self.gridLayoutWidget_2.setGeometry(11, 309, 611, int(round(28.5 * (self.fund_fee_rows + 1), 0)))
+            for i in range(len(widgets)):
+                self.gridLayout_2.addWidget(widgets[i], self.fund_fee_rows, i, 1, 1)
 
-        self.fund_fee_rows += 1
+            if not loading:
+                self.fund_fee_rows += 1
 
-        self.widgets_list_list.append(widgets)
-        cur_label_idx = self.gridLayout_2.indexOf(widgets[0])
-        cur_box_idx = self.gridLayout_2.indexOf(widgets[1])
-        cur_label_pos = list(self.gridLayout_2.getItemPosition(cur_label_idx))[:2]
-        cur_box_pos = list(self.gridLayout_2.getItemPosition(cur_box_idx))[:2]
+            self.widgets_list_list.append(widgets)
+            cur_label_idx = self.gridLayout_2.indexOf(widgets[0])
+            cur_box_idx = self.gridLayout_2.indexOf(widgets[1])
+            cur_label_pos = list(self.gridLayout_2.getItemPosition(cur_label_idx))[:2]
+            cur_box_pos = list(self.gridLayout_2.getItemPosition(cur_box_idx))[:2]
 
-        prev_box_row = cur_box_pos[0] - 1
-        prev_box_item = self.gridLayout_2.itemAtPosition(prev_box_row, cur_box_pos[1]).widget()
-        cur_label_item = self.gridLayout_2.itemAtPosition(cur_label_pos[0], cur_label_pos[1]).widget()
-        cur_label_item.setText(f"between £{int(prev_box_item.value())} and")
+            prev_box_row = cur_box_pos[0] - 1
+            prev_box_item = self.gridLayout_2.itemAtPosition(prev_box_row, cur_box_pos[1]).widget()
+            #if loading:
+            #    prev_box_item.setValue(self.plat.fund_plat_fee[0][x+1])
+            cur_label_item = self.gridLayout_2.itemAtPosition(cur_label_pos[0], cur_label_pos[1]).widget()
+            cur_label_item.setText(f"between £{int(prev_box_item.value())} and")
 
         if self.fund_fee_rows > 1:
             self.del_row_but.setEnabled(True)

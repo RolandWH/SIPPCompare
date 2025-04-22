@@ -9,8 +9,7 @@ import db_handler
 
 
 class SIPPCompare(QMainWindow):
-    # Receive instance of PlatformEdit() as parameter
-    def __init__(self, plat_edit_win: QWidget):
+    def __init__(self):
         super().__init__()
         # Import Qt Designer UI XML file
         uic.loadUi(resource_finder.get_res_path("gui/main_gui.ui"), self)
@@ -36,14 +35,12 @@ class SIPPCompare(QMainWindow):
 
         # Create window objects
         self.db = db_handler.DBHandler()
-        self.platform_win = plat_edit_win
         self.platform_list_win = platform_list.PlatformList(self.db)
         self.output_win = output_window.OutputWindow()
 
         # Handle events
         self.calc_but.clicked.connect(self.calculate_fees)
         # Menu bar entry (File -> Edit Platforms)
-        #self.actionEdit_Platforms.triggered.connect(self.show_platform_edit)
         self.actionList_Platforms.triggered.connect(self.show_platform_list)
         # Update percentage mix label when slider moved
         self.mix_slider.valueChanged.connect(self.update_slider_lab)
@@ -63,6 +60,8 @@ class SIPPCompare(QMainWindow):
             self.share_trades_combo.setCurrentText(str(prev_session_data["share_trades"]))
             self.fund_trades_combo.setCurrentText(str(prev_session_data["fund_trades"]))
             self.calc_but.setFocus()
+
+
 
     # Display slider position as mix between two nums (funds/shares)
     def update_slider_lab(self):
@@ -166,10 +165,6 @@ class SIPPCompare(QMainWindow):
                                        self.plat_name
                                        )
         self.output_win.show()
-
-    # Show the platform editor window (currently run-time only)
-    def show_platform_edit(self):
-        self.platform_win.show()
 
     def show_platform_list(self):
         self.platform_list_win.show()
