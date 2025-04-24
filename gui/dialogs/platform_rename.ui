@@ -1,55 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>PlatformRename</class>
- <widget class="QWidget" name="PlatformRename">
+ <widget class="QDialog" name="PlatformRename">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>90</height>
+    <height>100</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Rename Platform</string>
+   <string>Name Platform</string>
   </property>
-  <widget class="QPushButton" name="rename_plat_ok_but">
+  <widget class="QLineEdit" name="rename_plat_box">
    <property name="geometry">
     <rect>
-     <x>221</x>
-     <y>62</y>
-     <width>75</width>
-     <height>24</height>
+     <x>7</x>
+     <y>41</y>
+     <width>287</width>
+     <height>22</height>
     </rect>
    </property>
-   <property name="text">
-    <string>OK</string>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
   </widget>
   <widget class="QLabel" name="rename_plat_lab">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>10</y>
-     <width>191</width>
+     <x>35</x>
+     <y>9</y>
+     <width>241</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Enter a new name for the platform</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="rename_plat_box">
+  <widget class="QPushButton" name="rename_plat_ok_but">
    <property name="geometry">
     <rect>
-     <x>8</x>
-     <y>34</y>
-     <width>287</width>
-     <height>22</height>
+     <x>220</x>
+     <y>70</y>
+     <width>75</width>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>OK</string>
    </property>
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>rename_plat_ok_but</sender>
+   <signal>clicked()</signal>
+   <receiver>PlatformRename</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>257</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>149</x>
+     <y>44</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

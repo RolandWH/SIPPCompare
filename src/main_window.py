@@ -1,17 +1,18 @@
-from PyQt6.QtGui import QIntValidator, QIcon
-from PyQt6.QtWidgets import QMainWindow, QWidget
 from PyQt6 import uic
+from PyQt6.QtGui import QIntValidator, QIcon
+from PyQt6.QtWidgets import QMainWindow
 
-import output_window
-import platform_list
 import resource_finder
-import db_handler
+from db_handler import DBHandler
+from output_window import OutputWindow
+from platform_list import PlatformList
 
 
 class SIPPCompare(QMainWindow):
     def __init__(self):
         super().__init__()
         # Import Qt Designer UI XML file
+
         uic.loadUi(resource_finder.get_res_path("gui/main_gui.ui"), self)
         self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
@@ -32,11 +33,12 @@ class SIPPCompare(QMainWindow):
         self.fund_deal_fees     = 0.0
         self.share_plat_fees    = 0.0
         self.share_deal_fees    = 0.0
+        self.results = []
 
         # Create window objects
-        self.db = db_handler.DBHandler()
-        self.platform_list_win = platform_list.PlatformList(self.db)
-        self.output_win = output_window.OutputWindow()
+        self.db = DBHandler()
+        self.platform_list_win = PlatformList(self.db)
+        self.output_win = OutputWindow()
 
         # Handle events
         self.calc_but.clicked.connect(self.calculate_fees)
@@ -61,8 +63,6 @@ class SIPPCompare(QMainWindow):
             self.fund_trades_combo.setCurrentText(str(prev_session_data["fund_trades"]))
             self.calc_but.setFocus()
 
-
-
     # Display slider position as mix between two nums (funds/shares)
     def update_slider_lab(self):
         slider_val = self.mix_slider.value()
@@ -78,6 +78,7 @@ class SIPPCompare(QMainWindow):
             self.calc_but.setEnabled(False)
 
     # Get variables from platform editor input fields
+    """
     def init_variables(self):
         self.optional_boxes     = self.platform_win.get_optional_boxes()
         self.fund_plat_fee      = self.platform_win.get_fund_plat_fee()
@@ -109,50 +110,59 @@ class SIPPCompare(QMainWindow):
             self.share_deal_reduce_amount = self.platform_win.get_share_deal_reduce_amount()
         else:
             self.share_deal_reduce_amount = None
+        """
+    def init_variables(self):
+        self.fund_plat_fee = 1
 
     # Calculate fees
     def calculate_fees(self):
-        self.init_variables()
-
-        # Set to zero each time to avoid persistence
-        self.fund_plat_fees = 0
+        # Set to empty list each time to avoid persistence
+        self.results = []
 
         # Get user input
         value_num = float(self.value_input.value())
         slider_val: int = self.mix_slider.value()
         fund_trades_num = int(self.fund_trades_combo.currentText())
         share_trades_num = int(self.share_trades_combo.currentText())
-
-        # Funds/shares mix
         funds_value = (slider_val / 100) * value_num
-        if self.fund_deal_fee is not None:
-            self.fund_deal_fees = fund_trades_num * self.fund_deal_fee
-
-        for i in range(1, len(self.fund_plat_fee[0])):
-            band = self.fund_plat_fee[0][i]
-            prev_band = self.fund_plat_fee[0][i - 1]
-            fee = self.fund_plat_fee[1][i]
-            gap = (band - prev_band)
-
-            if funds_value > gap:
-                self.fund_plat_fees += gap * (fee / 100)
-                funds_value -= gap
-            else:
-                self.fund_plat_fees += funds_value * (fee / 100)
-                break
-
         shares_value = (1 - (slider_val / 100)) * value_num
-        if self.share_plat_max_fee is not None:
-            if (self.share_plat_fee * shares_value / 12) > self.share_plat_max_fee:
-                self.share_plat_fees = self.share_plat_max_fee * 12
-            else:
-                self.share_plat_fees = self.share_plat_fee * shares_value
 
-        if self.share_deal_reduce_trades is not None:
-            if (share_trades_num / 12) >= self.share_deal_reduce_trades:
-                self.share_deal_fees = self.share_deal_reduce_amount * share_trades_num
-            else:
-                self.share_deal_fees = self.share_deal_fee * share_trades_num
+        for platform in self.platform_list_win.plat_list:
+            fund_plat_fees = 0.0
+            fund_deal_fees = 0.0
+            share_plat_fees = 0.0
+            share_deal_fees = 0.0
+            plat_name = platform.plat_name
+
+            if platform.fund_deal_fee is not None:
+                fund_deal_fees = fund_trades_num * platform.fund_deal_fee
+
+            for i in range(1, len(platform.fund_plat_fee[0])):
+                band = platform.fund_plat_fee[0][i]
+                prev_band = platform.fund_plat_fee[0][i - 1]
+                fee = platform.fund_plat_fee[1][i]
+                gap = (band - prev_band)
+
+                if funds_value > gap:
+                    fund_plat_fees += gap * (fee / 100)
+                    funds_value -= gap
+                else:
+                    fund_plat_fees += funds_value * (fee / 100)
+                    break
+
+            if platform.share_plat_max_fee is not None:
+                if (platform.share_plat_fee * shares_value / 12) > platform.share_plat_max_fee:
+                    share_plat_fees = platform.share_plat_max_fee * 12
+                else:
+                    share_plat_fees = platform.share_plat_fee * shares_value
+
+            if platform.share_deal_reduce_trades is not None:
+                if (share_trades_num / 12) >= platform.share_deal_reduce_trades:
+                    share_deal_fees = platform.share_deal_reduce_amount * share_trades_num
+                else:
+                    share_deal_fees = platform.share_deal_fee * share_trades_num
+
+            self.results.append([fund_plat_fees, fund_deal_fees, share_plat_fees, share_deal_fees, plat_name])
 
         self.db.write_user_details(value_num, slider_val, share_trades_num, fund_trades_num)
         self.show_output_win()
@@ -160,10 +170,7 @@ class SIPPCompare(QMainWindow):
     # Show the output window - this func is called from calculate_fee()
     def show_output_win(self):
         # Refresh the results when new fees are calculated
-        self.output_win.display_output(self.fund_plat_fees, self.fund_deal_fees,
-                                       self.share_plat_fees, self.share_deal_fees,
-                                       self.plat_name
-                                       )
+        self.output_win.display_output(self.results)
         self.output_win.show()
 
     def show_platform_list(self):

@@ -1,12 +1,12 @@
-from PyQt6.QtCore import QRegularExpression
+from PyQt6 import uic
+from PyQt6.QtCore import QRegularExpression, QRect
 from PyQt6.QtGui import QRegularExpressionValidator, QFont, QIcon
 from PyQt6.QtWidgets import QWidget, QLabel
-from PyQt6 import uic
 
-from widgets.fastedit_spinbox import FastEditQDoubleSpinBox
-from data_struct import Platform
-import main_window
 import resource_finder
+from db_handler import DBHandler
+from data_struct import Platform
+from widgets.fastedit_spinbox import FastEditQDoubleSpinBox
 
 
 class PlatformEdit(QWidget):
@@ -20,14 +20,10 @@ class PlatformEdit(QWidget):
         self.plat = plat
         self.fund_plat_fee = self.plat.fund_plat_fee
         self.widgets_list_list = []
-
-        self.fund_fee_rows = len(self.plat.fund_plat_fee[0])
-        """
-        # Debugging feature: set with "--DEBUG_AUTOFILL" cmd argument
-        self.autofill = autofill
-        if autofill:
-            self.save_but.setEnabled(True)
-        """
+        if len(self.plat.fund_plat_fee[0]) > 1:
+            self.fund_fee_rows = len(self.plat.fund_plat_fee[0]) - 1
+        else:
+            self.fund_fee_rows = 1
 
         self.required_fields = [
             self.share_plat_fee_box,
@@ -58,6 +54,7 @@ class PlatformEdit(QWidget):
             False
         ]
 
+        # Set optional checkboxes based on DB storage
         if self.plat.plat_name is None:
             self.check_boxes_ticked[0] = False
             self.plat_name_check.setChecked(False)
@@ -102,8 +99,10 @@ class PlatformEdit(QWidget):
             self.share_deal_reduce_amount_check.setChecked(True)
             self.share_deal_reduce_amount_box.setValue(self.plat.share_deal_reduce_amount)
 
-        self.first_tier_box.setValue(self.plat.fund_plat_fee[0][1])
-        self.first_tier_fee_box.setValue(self.plat.fund_plat_fee[1][1])
+        # Populate fund platform fee rows from DB
+        if len(self.plat.fund_plat_fee[0]) > 1:
+            self.first_tier_box.setValue(self.plat.fund_plat_fee[0][1])
+            self.first_tier_fee_box.setValue(self.plat.fund_plat_fee[1][1])
         self.add_row(loading=True)
 
         # Handle events
@@ -150,34 +149,34 @@ class PlatformEdit(QWidget):
 
     # Get fee structure variables from user input when "Save" clicked
     def init_variables(self):
-        """
-        # If debugging, save time by hardcoding
-        if self.autofill:
-            self.plat_name                  = "AJBell"
-            self.fund_plat_fee              = [
-                                            [0, 250000,     1000000,    2000000],
-                                            [0, 0.25,       0.1,        0.05]
-                                        ]
-            self.fund_deal_fee              = 1.50
-            self.share_plat_fee             = 0.0025
-            self.share_plat_max_fee         = 3.50
-            self.share_deal_fee             = 5.00
-            self.share_deal_reduce_trades   = 10
-            self.share_deal_reduce_amount   = 3.50
-            self.check_boxes_ticked = [True, True, True, True, True]
-        else:
-        """
-        self.plat_name                  = self.plat_name_box.text()
-        self.fund_plat_fee              = self.create_plat_fee_struct()
-        self.fund_deal_fee              = float(self.fund_deal_fee_box.value())
-        self.share_plat_fee             = float(self.share_plat_fee_box.value()) / 100
-        self.share_plat_max_fee         = float(self.share_plat_max_fee_box.value())
-        self.share_deal_fee             = float(self.share_deal_fee_box.value())
-        self.share_deal_reduce_trades   = float(self.share_deal_reduce_trades_box.value())
-        self.share_deal_reduce_amount   = float(self.share_deal_reduce_amount_box.value())
+        self.plat.fund_plat_fee = self.create_plat_fee_struct()
+        self.plat.share_plat_fee = float(self.share_plat_fee_box.value()) / 100
+        self.plat.share_deal_fee = float(self.share_deal_fee_box.value())
 
-        # Once user input is received show main window
-        self.main_win.show()
+        if self.check_boxes_ticked[0]:
+            self.plat.plat_name = self.plat_name_box.text()
+        else:
+            self.plat.plat_name = None
+
+        if self.check_boxes_ticked[1]:
+            self.plat.fund_deal_fee = float(self.fund_deal_fee_box.value())
+        else:
+            self.plat.fund_deal_fee = None
+
+        if self.check_boxes_ticked[2]:
+            self.plat.share_plat_max_fee = float(self.share_plat_max_fee_box.value())
+        else:
+            self.plat.share_plat_max_fee = None
+
+        if self.check_boxes_ticked[3]:
+            self.plat.share_deal_reduce_trades = int(self.share_deal_reduce_trades_box.value())
+        else:
+            self.plat.share_deal_reduce_trades = None
+
+        if self.check_boxes_ticked[4]:
+            self.plat.share_deal_reduce_amount = float(self.share_deal_reduce_amount_box.value())
+        else:
+            self.plat.share_deal_reduce_amount = None
 
     # This method does multiple things in order to validate the user's inputs:
     # 1) Check all required fields have a non-zero value
@@ -261,12 +260,12 @@ class PlatformEdit(QWidget):
 
     def add_row(self, loading: bool = False):
         if loading:
-            rows_needed = self.fund_fee_rows
+            rows_needed = self.fund_fee_rows - 1
         else:
             rows_needed = 1
 
-        widgets = []
         for x in range(rows_needed):
+            widgets = []
             font = QFont()
             font.setPointSize(11)
 
@@ -279,7 +278,7 @@ class PlatformEdit(QWidget):
             widgets[1].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
             widgets[1].setFont(font)
             if loading:
-                widgets[1].setValue(self.plat.fund_plat_fee[0][x+1])
+                widgets[1].setValue(self.plat.fund_plat_fee[0][x+2])
             widgets[1].valueChanged.connect(self.check_valid)
             widgets[1].valueChanged.connect(self.update_tier_labels)
 
@@ -293,13 +292,20 @@ class PlatformEdit(QWidget):
             widgets[3].setButtonSymbols(FastEditQDoubleSpinBox.ButtonSymbols.NoButtons)
             widgets[3].setFont(font)
             if loading:
-                widgets[3].setValue(self.plat.fund_plat_fee[1][x+1])
+                widgets[3].setValue(self.plat.fund_plat_fee[1][x+2])
             widgets[3].valueChanged.connect(self.check_valid)
 
             # TODO: why 28.5?
-            self.gridLayoutWidget_2.setGeometry(11, 309, 611, int(round(28.5 * (self.fund_fee_rows + 1), 0)))
+            if loading:
+                grid_height = int(round(28.5 * self.fund_fee_rows))
+            else:
+                grid_height = int(round(28.5 * (self.fund_fee_rows + 1)))
+            self.gridLayoutWidget_2.setGeometry(QRect(11, 309, 611, grid_height))
             for i in range(len(widgets)):
-                self.gridLayout_2.addWidget(widgets[i], self.fund_fee_rows, i, 1, 1)
+                if loading:
+                    self.gridLayout_2.addWidget(widgets[i], x + 1, i, 1, 1)
+                else:
+                    self.gridLayout_2.addWidget(widgets[i], self.fund_fee_rows, i, 1, 1)
 
             if not loading:
                 self.fund_fee_rows += 1
@@ -324,6 +330,7 @@ class PlatformEdit(QWidget):
             self.add_row_but.setEnabled(False)
 
         self.check_valid()
+        self.update_tier_labels()
 
         # TODO: Tab order
 

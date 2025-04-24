@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>PlatformList</class>
  <widget class="QWidget" name="PlatformList">
+  <property name="windowModality">
+   <enum>Qt::WindowModality::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -120,5 +123,22 @@
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>plist_save_but</sender>
+   <signal>clicked()</signal>
+   <receiver>PlatformList</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>196</x>
+     <y>453</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>131</x>
+     <y>236</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -1,9 +1,9 @@
-from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QWidget
-from PyQt6 import uic
-
 import datetime
 import os
+
+from PyQt6 import uic
+from PyQt6.QtGui import QIcon
+from PyQt6.QtWidgets import QWidget
 
 import resource_finder
 
@@ -15,6 +15,7 @@ class OutputWindow(QWidget):
         uic.loadUi(resource_finder.get_res_path("gui/output_window.ui"), self)
         self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
+    """
         # Initialise class variables
         self.results_str = ""
         self.platform_name = ""
@@ -62,3 +63,25 @@ class OutputWindow(QWidget):
         self.results_str += f"\n\nTotal fees: £{round(total_fees, 2):.2f}"
 
         self.output.setText(self.results_str)
+    """
+
+    def display_output(self, results: list):
+        self.graphWidget.canvas.axes.clear()
+        self.graphWidget.canvas.axes.cla()
+        self.graphWidget.canvas.draw_idle()
+        ax = self.graphWidget.canvas.axes
+        #self.graphWidget.clf()
+        names = []
+        values = []
+        for result in results:
+            names.append(result[4])
+            values.append(sum(result[:4]))
+        h_bars = ax.barh(names, values)
+        #labels = []
+        #for value in values:
+         #   labels.append(f"£{str(value)}")
+
+        ax.bar_label(h_bars, label_type='center', labels=[f"£{x:,.2f}" for x in h_bars.datavalues])
+        #ax.draw()
+        #self.graphWidget.draw()
+
