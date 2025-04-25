@@ -34,7 +34,6 @@ class PlatformRename(QDialog):
         event.ignore()
         self.reject()
 
-
 class PlatformList(QWidget):
     def __init__(self, db: DBHandler):
         super().__init__()
@@ -107,7 +106,9 @@ class PlatformList(QWidget):
         self.db.write_platforms(self.plat_list)
 
     def toggle_platform_state(self):
-        return None
+        index = self.platListWidget.currentRow()
+        state = self.plat_enabled_check.isChecked()
+        self.db.toggle_platform_state(index, state)
 
     def remove_platform(self):
         return None

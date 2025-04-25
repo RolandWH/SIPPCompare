@@ -295,7 +295,6 @@ class PlatformEdit(QWidget):
                 widgets[3].setValue(self.plat.fund_plat_fee[1][x+2])
             widgets[3].valueChanged.connect(self.check_valid)
 
-            # TODO: why 28.5?
             if loading:
                 grid_height = int(round(28.5 * self.fund_fee_rows))
             else:
@@ -332,7 +331,7 @@ class PlatformEdit(QWidget):
         self.check_valid()
         self.update_tier_labels()
 
-        # TODO: Tab order
+        # TODO: Tab/focus order
 
     def remove_row(self):
         for widget in self.widgets_list_list[self.fund_fee_rows - 2]:
@@ -350,31 +349,3 @@ class PlatformEdit(QWidget):
 
         self.check_valid()
         self.update_tier_labels()
-
-    # Getter functions (is this necessary? maybe directly reading class vars would be best...)
-    def get_optional_boxes(self):
-        return self.check_boxes_ticked
-
-    def get_plat_name(self):
-        return self.plat_name
-
-    def get_fund_plat_fee(self):
-        return self.fund_plat_fee
-
-    def get_fund_deal_fee(self):
-        return self.fund_deal_fee
-
-    def get_share_plat_fee(self):
-        return self.share_plat_fee
-
-    def get_share_plat_max_fee(self):
-        return self.share_plat_max_fee
-
-    def get_share_deal_fee(self):
-        return self.share_deal_fee
-
-    def get_share_deal_reduce_trades(self):
-        return self.share_deal_reduce_trades
-
-    def get_share_deal_reduce_amount(self):
-        return self.share_deal_reduce_amount

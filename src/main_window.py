@@ -77,43 +77,6 @@ class SIPPCompare(QMainWindow):
         else:
             self.calc_but.setEnabled(False)
 
-    # Get variables from platform editor input fields
-    """
-    def init_variables(self):
-        self.optional_boxes     = self.platform_win.get_optional_boxes()
-        self.fund_plat_fee      = self.platform_win.get_fund_plat_fee()
-        self.share_plat_fee     = self.platform_win.get_share_plat_fee()
-        self.share_deal_fee     = self.platform_win.get_share_deal_fee()
-
-        # TODO: This is HORRIBLE - find better way of doing it! (maybe enums?)
-        if self.optional_boxes[0]:
-            self.plat_name = self.platform_win.get_plat_name()
-        else:
-            self.plat_name = None
-
-        if self.optional_boxes[1]:
-            self.fund_deal_fee = self.platform_win.get_fund_deal_fee()
-        else:
-            self.fund_deal_fee = None
-
-        if self.optional_boxes[2]:
-            self.share_plat_max_fee = self.platform_win.get_share_plat_max_fee()
-        else:
-            self.share_plat_max_fee = None
-
-        if self.optional_boxes[3]:
-            self.share_deal_reduce_trades = self.platform_win.get_share_deal_reduce_trades()
-        else:
-            self.share_deal_reduce_trades = None
-
-        if self.optional_boxes[4]:
-            self.share_deal_reduce_amount = self.platform_win.get_share_deal_reduce_amount()
-        else:
-            self.share_deal_reduce_amount = None
-        """
-    def init_variables(self):
-        self.fund_plat_fee = 1
-
     # Calculate fees
     def calculate_fees(self):
         # Set to empty list each time to avoid persistence

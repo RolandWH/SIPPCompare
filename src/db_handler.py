@@ -241,3 +241,8 @@ class DBHandler:
         }
 
         return user_details_dict
+
+    def toggle_platform_state(self, index: int, state: bool):
+        state_data = [state, index]
+        self.cur.execute("UPDATE tblPlatforms SET IsEnabled = ? WHERE PlatformID = ?", state_data)
+        self.conn.commit()

@@ -66,22 +66,16 @@ class OutputWindow(QWidget):
     """
 
     def display_output(self, results: list):
-        self.graphWidget.canvas.axes.clear()
-        self.graphWidget.canvas.axes.cla()
-        self.graphWidget.canvas.draw_idle()
         ax = self.graphWidget.canvas.axes
-        #self.graphWidget.clf()
+        ax.clear()
+        ax.cla()
+        self.graphWidget.canvas.draw_idle()
+
         names = []
         values = []
         for result in results:
             names.append(result[4])
             values.append(sum(result[:4]))
+
         h_bars = ax.barh(names, values)
-        #labels = []
-        #for value in values:
-         #   labels.append(f"£{str(value)}")
-
         ax.bar_label(h_bars, label_type='center', labels=[f"£{x:,.2f}" for x in h_bars.datavalues])
-        #ax.draw()
-        #self.graphWidget.draw()
-

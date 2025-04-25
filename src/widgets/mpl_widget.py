@@ -8,7 +8,6 @@ class MplWidget(QWidget):
         super().__init__(parent)
         self.canvas = FigureCanvasQTAgg(Figure(figsize=(10, 10), dpi=100))
         vertical_layout = QVBoxLayout()
-        #vertical_layout.setSpacing(0)
         vertical_layout.addWidget(self.canvas)
         self.canvas.axes = self.canvas.figure.add_subplot(1, 1, 1)
         self.setLayout(vertical_layout)
