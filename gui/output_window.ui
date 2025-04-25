@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1330</width>
-    <height>630</height>
+    <height>685</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,6 +21,85 @@
      <width>1350</width>
      <height>650</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="save_graph_but">
+   <property name="geometry">
+    <rect>
+     <x>1231</x>
+     <y>642</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Save graph</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="time_slider">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>635</y>
+     <width>581</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>20</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Horizontal</enum>
+   </property>
+   <property name="tickPosition">
+    <enum>QSlider::TickPosition::TicksAbove</enum>
+   </property>
+   <property name="tickInterval">
+    <number>1</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="save_csv_but">
+   <property name="geometry">
+    <rect>
+     <x>1134</x>
+     <y>642</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Save CSV</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="time_lab">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>640</y>
+     <width>341</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Fees over 1 year(s) (assuming no change in value)</string>
    </property>
   </widget>
  </widget>

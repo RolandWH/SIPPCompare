@@ -133,7 +133,7 @@ class SIPPCompare(QMainWindow):
     # Show the output window - this func is called from calculate_fee()
     def show_output_win(self):
         # Refresh the results when new fees are calculated
-        self.output_win.display_output(self.results)
+        self.output_win.display_output(self.results, 1)
         self.output_win.show()
 
     def show_platform_list(self):
