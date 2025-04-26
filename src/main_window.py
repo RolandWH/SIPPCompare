@@ -87,7 +87,6 @@ class SIPPCompare(QMainWindow):
         slider_val: int = self.mix_slider.value()
         fund_trades_num = int(self.fund_trades_combo.currentText())
         share_trades_num = int(self.share_trades_combo.currentText())
-        funds_value = (slider_val / 100) * value_num
         shares_value = (1 - (slider_val / 100)) * value_num
 
         for platform in self.platform_list_win.plat_list:
@@ -100,6 +99,7 @@ class SIPPCompare(QMainWindow):
             if platform.fund_deal_fee is not None:
                 fund_deal_fees = fund_trades_num * platform.fund_deal_fee
 
+            funds_value = (slider_val / 100) * value_num
             for i in range(1, len(platform.fund_plat_fee[0])):
                 band = platform.fund_plat_fee[0][i]
                 prev_band = platform.fund_plat_fee[0][i - 1]
