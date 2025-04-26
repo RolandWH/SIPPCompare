@@ -2,11 +2,31 @@ import os
 from datetime import datetime
 
 from PyQt6 import uic
-from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QWidget, QFileDialog
+from PyQt6.QtGui import QIcon, QFont
+from PyQt6.QtWidgets import QWidget, QFileDialog, QMessageBox, QDialogButtonBox
 
 import resource_finder
 from widgets.mpl_widget import MplWidget
+
+
+class SaveFailure(QMessageBox):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
+        self.setWindowTitle("Save failure")
+
+        self.setIcon(QMessageBox.Icon.Critical)
+        font = QFont()
+        font.setPointSize(11)
+        self.setFont(font)
+        self.setText("Failed to save file")
+        self.setDetailedText(
+            "This could be due to a permissions issue, or the file being in use by another process"
+        )
+
+        self.setStandardButtons(QMessageBox.StandardButton.Ok)
+        font.setPointSize(10)
+        self.findChild(QDialogButtonBox).setFont(font)
 
 
 class OutputWindow(QWidget):
@@ -17,6 +37,7 @@ class OutputWindow(QWidget):
         self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
         # Define class variables
+        self.save_err_dialog = SaveFailure()
         self.canvas = self.graphWidget.canvas
         self.ax = self.canvas.axes
         self.fig = self.canvas.figure
@@ -39,6 +60,9 @@ class OutputWindow(QWidget):
             names.append(result[4])
             values.append(sum(result[:4]) * years)
 
+        names = sorted(names, key=lambda x: values[names.index(x)], reverse=True)
+        values = sorted(values, reverse=True)
+
         h_bars = self.ax.barh(names, values)
         self.ax.bar_label(h_bars, label_type='center', labels=[f"£{x:,.2f}" for x in h_bars.datavalues])
 
@@ -58,10 +82,11 @@ class OutputWindow(QWidget):
 
         try:
             self.fig.savefig(file_path, dpi=150)
-        except:
-            pass
+        except OSError:
+            self.save_err_dialog.exec()
 
     def save_csv(self):
+        # TODO: Sort CSV output, either alphabetically or by total fees
         file_picker = QFileDialog(self)
         file_picker.setFileMode(QFileDialog.FileMode.AnyFile)
         file_picker.setDefaultSuffix("csv")
@@ -105,7 +130,7 @@ class OutputWindow(QWidget):
             csvfile.write(csv_string)
             csvfile.close()
         except OSError:
-            print("ERROR FILE SAVE FAILED")
+            self.save_err_dialog.exec()
 
     def change_time(self):
         years: int = self.time_slider.value()
