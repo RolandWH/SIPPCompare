@@ -2,8 +2,8 @@
 .idea/workspace.xml
 .idea/discord.xml
 .idea/encodings.xml
-build/
-dist/
+*build/
+*dist/
 output/
 src/*/__pycache__/
 src/__pycache__/
