@@ -220,13 +220,13 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionEdit_Platforms"/>
+    <addaction name="actionList_Platforms"/>
    </widget>
    <addaction name="menuPlatforms"/>
   </widget>
-  <action name="actionEdit_Platforms">
+  <action name="actionList_Platforms">
    <property name="text">
-    <string>Edit Platforms</string>
+    <string>Platform List</string>
    </property>
    <property name="font">
     <font>

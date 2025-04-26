@@ -7,6 +7,7 @@ class FastEditQDoubleSpinBox(QDoubleSpinBox):
         QTimer.singleShot(0, self.selectAll)
         super(FastEditQDoubleSpinBox, self).focusInEvent(e)
 
+
 class FastEditQSpinBox(QSpinBox):
     def focusInEvent(self, e):
         QTimer.singleShot(0, self.selectAll)
