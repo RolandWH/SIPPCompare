@@ -10,6 +10,18 @@
     <height>100</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>300</width>
+    <height>100</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>300</width>
+    <height>100</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Name Platform</string>
   </property>
