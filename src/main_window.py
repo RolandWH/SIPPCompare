@@ -137,7 +137,10 @@ class SIPPCompare(QMainWindow):
     def show_output_win(self):
         # Refresh the results when new fees are calculated
         self.output_win.display_output(self.results, 1)
+        self.output_win.activateWindow()
+        self.output_win.raise_()
         self.output_win.show()
+        QApplication.alert(self.output_win)
 
     def show_platform_list(self):
         self.platform_list_win.show()
