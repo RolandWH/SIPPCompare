@@ -77,7 +77,7 @@ class SIPPCompare(QMainWindow):
         else:
             self.calc_but.setEnabled(False)
 
-    # Calculate fees
+    # Calculate fees for all active platforms
     def calculate_fees(self):
         # Set to empty list each time to avoid persistence
         self.results = []
@@ -90,6 +90,9 @@ class SIPPCompare(QMainWindow):
         shares_value = (1 - (slider_val / 100)) * value_num
 
         for platform in self.platform_list_win.plat_list:
+            if not platform.enabled:
+                continue
+
             fund_plat_fees = 0.0
             fund_deal_fees = 0.0
             share_plat_fees = 0.0

@@ -137,7 +137,7 @@ class PlatformList(QWidget):
     def toggle_platform_state(self):
         index = self.platListWidget.currentRow()
         state = self.plat_enabled_check.isChecked()
-        self.db.toggle_platform_state(index, state)
+        self.plat_list[index].enabled = state
 
     def remove_platform(self):
         index = self.platListWidget.currentRow()
