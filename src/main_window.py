@@ -1,33 +1,21 @@
 from PyQt6 import uic
 from PyQt6.QtGui import QIntValidator, QIcon
-from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtWidgets import QMainWindow, QApplication
 
 import resource_finder
 from db_handler import DBHandler
-from output_window import OutputWindow
 from platform_list import PlatformList
+from output_window import OutputWindow
 
 
 class SIPPCompare(QMainWindow):
     def __init__(self):
         super().__init__()
         # Import Qt Designer UI XML file
-
         uic.loadUi(resource_finder.get_res_path("gui/main_gui.ui"), self)
         self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
         # Initialise class variables
-        # Inputs
-        self.optional_boxes             = []
-        self.fund_plat_fee              = 0.0
-        self.plat_name                  = ""
-        self.fund_deal_fee              = 0.0
-        self.share_plat_fee             = 0.0
-        self.share_plat_max_fee         = 0.0
-        self.share_deal_fee             = 0.0
-        self.share_deal_reduce_trades   = 0.0
-        self.share_deal_reduce_amount   = 0.0
-
         # Results
         self.fund_plat_fees     = 0.0
         self.fund_deal_fees     = 0.0
@@ -42,11 +30,12 @@ class SIPPCompare(QMainWindow):
 
         # Handle events
         self.calc_but.clicked.connect(self.calculate_fees)
-        # Menu bar entry (File -> Edit Platforms)
+        # Menu bar entry (File -> Platform List)
         self.actionList_Platforms.triggered.connect(self.show_platform_list)
         # Update percentage mix label when slider moved
         self.mix_slider.valueChanged.connect(self.update_slider_lab)
         self.value_input.valueChanged.connect(self.check_valid)
+        # Validate input
         self.share_trades_combo.currentTextChanged.connect(self.check_valid)
         self.fund_trades_combo.currentTextChanged.connect(self.check_valid)
 
@@ -69,6 +58,7 @@ class SIPPCompare(QMainWindow):
         mix_lab_str = f"Investment mix (funds {slider_val}% / shares {100 - slider_val}%)"
         self.mix_lab.setText(mix_lab_str)
 
+    # Ensure that trade fields aren't blank and pension value > 0
     def check_valid(self):
         if self.share_trades_combo.currentText() != "" \
         and self.fund_trades_combo.currentText() != "" \
@@ -130,6 +120,7 @@ class SIPPCompare(QMainWindow):
 
             self.results.append([fund_plat_fees, fund_deal_fees, share_plat_fees, share_deal_fees, plat_name])
 
+        # Save details entered by user for next session
         self.db.write_user_details(value_num, slider_val, share_trades_num, fund_trades_num)
         self.show_output_win()
 

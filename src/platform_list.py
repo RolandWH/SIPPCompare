@@ -60,6 +60,7 @@ class PlatformList(QWidget):
         uic.loadUi(resource_finder.get_res_path("gui/platform_list.ui"), self)
         self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
+        # Initialise class variables
         self.db = db
         self.plat_edit_win = None
         self.plat_list_dialog = PlatformRename()
