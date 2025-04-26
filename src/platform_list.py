@@ -1,7 +1,7 @@
 from PyQt6 import uic
 from PyQt6.QtCore import QRegularExpression
-from PyQt6.QtGui import QIcon, QRegularExpressionValidator
-from PyQt6.QtWidgets import QWidget, QListWidgetItem, QDialog
+from PyQt6.QtGui import QIcon, QRegularExpressionValidator, QFont
+from PyQt6.QtWidgets import QWidget, QListWidgetItem, QDialog, QDialogButtonBox, QMessageBox
 
 import resource_finder
 from db_handler import DBHandler
@@ -34,6 +34,25 @@ class PlatformRename(QDialog):
         event.ignore()
         self.reject()
 
+
+class RemoveConfirm(QMessageBox):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
+        self.setWindowTitle("Remove platform?")
+        self.setIcon(QMessageBox.Icon.Warning)
+        font = QFont()
+        font.setPointSize(11)
+        self.setFont(font)
+        self.setText("Are you sure you want to remove this platform?")
+        self.setInformativeText("This action is immediate and permanent")
+
+        self.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel)
+        self.setDefaultButton(QMessageBox.StandardButton.Cancel)
+        font.setPointSize(10)
+        self.findChild(QDialogButtonBox).setFont(font)
+
+
 class PlatformList(QWidget):
     def __init__(self, db: DBHandler):
         super().__init__()
@@ -44,20 +63,12 @@ class PlatformList(QWidget):
         self.db = db
         self.plat_edit_win = None
         self.plat_list_dialog = PlatformRename()
+        self.del_plat_dialog = RemoveConfirm()
         self.plat_list = []
         self.plat_name_list = []
         self.new_plat_name = ""
         self.update_plat_list()
-
-        for i in range(len(self.plat_name_list)):
-            plat_name = self.plat_name_list[i]
-            item = QListWidgetItem()
-            if plat_name is not None:
-                item.setText(plat_name)
-            else:
-                item.setText(f"Unnamed [ID: {i}]")
-
-            self.platListWidget.addItem(item)
+        self.db_indices = [x for x in range(len(self.plat_name_list))]
 
         # Handle events
         self.add_plat_but.clicked.connect(self.add_platform)
@@ -70,6 +81,17 @@ class PlatformList(QWidget):
     def update_plat_list(self):
         self.plat_name_list = self.db.retrieve_plat_list()
         self.plat_list = self.db.retrieve_platforms()
+        self.platListWidget.clear()
+
+        for i in range(len(self.plat_name_list)):
+            plat_name = self.plat_name_list[i]
+            item = QListWidgetItem()
+            if plat_name is not None:
+                item.setText(plat_name)
+            else:
+                item.setText(f"Unnamed [ID: {i}]")
+
+            self.platListWidget.addItem(item)
 
     def add_platform(self):
         name_dialog_res = self.plat_list_dialog.exec()
@@ -97,6 +119,11 @@ class PlatformList(QWidget):
         else:
             self.plat_enabled_check.setChecked(False)
 
+        if index in self.db_indices:
+            self.del_plat_but.setEnabled(True)
+        else:
+            self.del_plat_but.setEnabled(False)
+
     def edit_platform(self):
         index = self.platListWidget.currentRow()
         self.plat_edit_win = PlatformEdit(self.plat_list[index])
@@ -104,6 +131,8 @@ class PlatformList(QWidget):
 
     def save_platforms(self):
         self.db.write_platforms(self.plat_list)
+        self.update_plat_list()
+        self.db_indices = [x for x in range(len(self.plat_name_list))]
 
     def toggle_platform_state(self):
         index = self.platListWidget.currentRow()
@@ -111,4 +140,8 @@ class PlatformList(QWidget):
         self.db.toggle_platform_state(index, state)
 
     def remove_platform(self):
-        return None
+        index = self.platListWidget.currentRow()
+        del_dialog_res = self.del_plat_dialog.exec()
+        if del_dialog_res == QMessageBox.StandardButton.Yes:
+            self.db.remove_platform(index)
+            self.update_plat_list()

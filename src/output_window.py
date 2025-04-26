@@ -24,6 +24,7 @@ class OutputWindow(QWidget):
 
         # Handle events
         self.save_graph_but.clicked.connect(self.save_graph)
+        self.save_csv_but.clicked.connect(self.save_csv)
         self.time_slider.valueChanged.connect(self.change_time)
 
     def display_output(self, results: list, years: int):
@@ -43,14 +44,68 @@ class OutputWindow(QWidget):
 
     def save_graph(self):
         file_picker = QFileDialog(self)
-        file_picker.setFileMode(QFileDialog.FileMode.Directory)
-        folder_path = ""
-        if file_picker.exec():
-            folder_path = file_picker.selectedFiles()[0]
-
+        file_picker.setFileMode(QFileDialog.FileMode.AnyFile)
+        file_picker.setDefaultSuffix("png")
+        file_picker.setWindowTitle("Save results as PNG")
+        file_picker.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
+        file_picker.setNameFilter("*.png")
+        file_path = ""
         cur_time = datetime.now()
-        filename_str = f"{folder_path}/SIPPCompare-{cur_time.year}.{cur_time.month}.{cur_time.day}.png"
-        self.fig.savefig(filename_str, dpi=150)
+        filename_str = f"{file_path}/SIPPCompare-{cur_time.year}.{cur_time.month}.{cur_time.day}.png"
+        file_picker.selectFile(filename_str)
+        if file_picker.exec():
+            file_path = file_picker.selectedFiles()[0]
+
+        try:
+            self.fig.savefig(file_path, dpi=150)
+        except:
+            pass
+
+    def save_csv(self):
+        file_picker = QFileDialog(self)
+        file_picker.setFileMode(QFileDialog.FileMode.AnyFile)
+        file_picker.setDefaultSuffix("csv")
+        file_picker.setWindowTitle("Save results as CSV")
+        file_picker.setAcceptMode(QFileDialog.AcceptMode.AcceptSave)
+        file_picker.setNameFilter("*.csv")
+        file_path = ""
+        cur_time = datetime.now()
+        filename_str = f"{file_path}/SIPPCompare-{cur_time.year}.{cur_time.month}.{cur_time.day}.csv"
+        file_picker.selectFile(filename_str)
+        if file_picker.exec():
+            file_path = file_picker.selectedFiles()[0]
+
+        try:
+            csvfile = open(file_path, "wt")
+            csv_string = (
+                "Platform Name,Fund Platform Fee,Share Platform Fee,Fund Dealing Fee,"
+                "Share Dealing Fee,Total Platform Fees,Total Dealing Fees,Total Fund Fees,"
+                "Total Share Fees,Total Fees"
+            )
+
+            for result in self.results:
+                csv_string += '\n'
+                pn = result[4]
+                fpf = result[0]
+                spf = result[2]
+                fdf = result[1]
+                sdf = result[3]
+
+                tpf = fpf + spf
+                tdf = sdf + fdf
+
+                tff = fpf + fdf
+                tsf = spf + sdf
+                tf = tff + tsf
+                csv_string += (
+                    f"{pn},\"£{fpf:,.2f}\",\"£{spf:,.2f}\",\"£{fdf:,.2f}\",\"£{sdf:,.2f}\","
+                    f"\"£{tpf:,.2f}\",\"£{tdf:,.2f}\",\"£{tff:,.2f}\",\"£{tsf:,.2f}\",\"£{tf:,.2f}\""
+                )
+
+            csvfile.write(csv_string)
+            csvfile.close()
+        except OSError:
+            print("ERROR FILE SAVE FAILED")
 
     def change_time(self):
         years: int = self.time_slider.value()

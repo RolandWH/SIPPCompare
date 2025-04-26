@@ -65,7 +65,7 @@ class PlatformEdit(QWidget):
 
         if self.plat.fund_deal_fee is None:
             self.check_boxes_ticked[1] = False
-            self.plat_fund_deal_fee_check.setChecked(False)
+            self.fund_deal_fee_check.setChecked(False)
         else:
             self.check_boxes_ticked[1] = True
             self.fund_deal_fee_check.setChecked(True)
@@ -317,8 +317,6 @@ class PlatformEdit(QWidget):
 
             prev_box_row = cur_box_pos[0] - 1
             prev_box_item = self.gridLayout_2.itemAtPosition(prev_box_row, cur_box_pos[1]).widget()
-            #if loading:
-            #    prev_box_item.setValue(self.plat.fund_plat_fee[0][x+1])
             cur_label_item = self.gridLayout_2.itemAtPosition(cur_label_pos[0], cur_label_pos[1]).widget()
             cur_label_item.setText(f"between £{int(prev_box_item.value())} and")
 

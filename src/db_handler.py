@@ -246,3 +246,20 @@ class DBHandler:
         state_data = [state, index]
         self.cur.execute("UPDATE tblPlatforms SET IsEnabled = ? WHERE PlatformID = ?", state_data)
         self.conn.commit()
+
+    def remove_platform(self, index: int):
+        tbl_list = ["tblPlatforms", "tblFlatPlatFees", "tblFlatDealFees", "tblFundPlatFee"]
+        for tbl in tbl_list:
+            self.cur.execute(f"DELETE FROM {tbl} WHERE PlatformID = {index}")
+
+        res = self.cur.execute("SELECT PlatformID from tblPlatforms").fetchall()
+        n = len(res)
+        for i in range(n):
+            for tbl in tbl_list:
+                self.cur.execute(f"""
+                    UPDATE {tbl} 
+                    SET PlatformID = {index + i} 
+                    WHERE PlatformID = {index + 1 + i}
+                """)
+
+        self.conn.commit()
