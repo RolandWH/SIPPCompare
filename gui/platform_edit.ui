@@ -16,7 +16,13 @@
   <property name="minimumSize">
    <size>
     <width>630</width>
-    <height>567</height>
+    <height>580</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>630</width>
+    <height>580</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -52,11 +58,8 @@
     </property>
     <item row="0" column="3">
      <widget class="QCheckBox" name="plat_name_check">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
       <property name="text">
-       <string> </string>
+       <string/>
       </property>
       <property name="checked">
        <bool>true</bool>
@@ -553,13 +556,13 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FastEditQDoubleSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
+   <class>FastEditQSpinBox</class>
+   <extends>QSpinBox</extends>
    <header>widgets/fastedit_spinbox</header>
   </customwidget>
   <customwidget>
-   <class>FastEditQSpinBox</class>
-   <extends>QSpinBox</extends>
+   <class>FastEditQDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
    <header>widgets/fastedit_spinbox</header>
   </customwidget>
  </customwidgets>
