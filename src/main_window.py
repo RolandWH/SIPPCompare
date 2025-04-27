@@ -1,4 +1,5 @@
 from PyQt6 import uic
+from PyQt6.QtCore import QTimer
 from PyQt6.QtGui import QIntValidator, QIcon
 from PyQt6.QtWidgets import QMainWindow, QApplication
 
@@ -15,7 +16,7 @@ class SIPPCompare(QMainWindow):
         uic.loadUi(resource_finder.get_res_path("gui/main_gui.ui"), self)
         self.setWindowIcon(QIcon(resource_finder.get_res_path("icon2.ico")))
 
-        # Initialise class variables
+        ## Initialise class variables
         # Results
         self.fund_plat_fees     = 0.0
         self.fund_deal_fees     = 0.0
@@ -26,10 +27,12 @@ class SIPPCompare(QMainWindow):
         # Create window objects
         self.db = DBHandler()
         self.platform_list_win = PlatformList(self.db)
-        self.output_win = OutputWindow()
+        if len(self.platform_list_win.plat_name_list) == 0:
+            QTimer.singleShot(1, self.platform_list_win.show)
+        self.output_win = None
 
-        # Handle events
-        self.calc_but.clicked.connect(self.calculate_fees)
+        ## Handle events
+        self.calc_but.clicked.connect(self.indicate_loading)
         # Menu bar entry (File -> Platform List)
         self.actionList_Platforms.triggered.connect(self.show_platform_list)
         # Update percentage mix label when slider moved
@@ -39,11 +42,11 @@ class SIPPCompare(QMainWindow):
         self.share_trades_combo.currentTextChanged.connect(self.check_valid)
         self.fund_trades_combo.currentTextChanged.connect(self.check_valid)
 
-        # Set validators
+        ## Set validators
         self.share_trades_combo.setValidator(QIntValidator(0, 999))
         self.fund_trades_combo.setValidator(QIntValidator(0, 99))
 
-        # Restore last session
+        ## Restore last session
         prev_session_data = self.db.retrieve_user_details()
         if "NO_RECORD" not in prev_session_data:
             self.value_input.setValue(prev_session_data["pension_val"])
@@ -66,6 +69,10 @@ class SIPPCompare(QMainWindow):
             self.calc_but.setEnabled(True)
         else:
             self.calc_but.setEnabled(False)
+
+    def indicate_loading(self):
+        self.calc_but.setText("Working...")
+        QTimer.singleShot(1, self.calculate_fees)
 
     # Calculate fees for all active platforms
     def calculate_fees(self):
@@ -131,7 +138,9 @@ class SIPPCompare(QMainWindow):
     # Show the output window - this func is called from calculate_fee()
     def show_output_win(self):
         # Refresh the results when new fees are calculated
+        self.output_win = OutputWindow()
         self.output_win.display_output(self.results, 1)
+        self.calc_but.setText("Calculate")
         self.output_win.activateWindow()
         self.output_win.raise_()
         self.output_win.show()

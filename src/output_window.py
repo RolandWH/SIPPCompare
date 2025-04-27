@@ -6,7 +6,6 @@ from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtWidgets import QWidget, QFileDialog, QMessageBox, QDialogButtonBox
 
 import resource_finder
-from widgets.mpl_widget import MplWidget
 
 
 class SaveFailure(QMessageBox):
