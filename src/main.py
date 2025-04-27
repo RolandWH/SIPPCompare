@@ -1,3 +1,14 @@
+## Nuitka compilation options
+# nuitka-project: --mode=standalone
+# nuitka-project: --enable-plugin=pyqt6
+# nuitka-project: --include-module=widgets.mpl_widget
+# nuitka-project: --include-data-files=icon2.ico=icon2.ico
+# nuitka-project: --include-data-dir=gui=gui
+# nuitka-project: --windows-console-mode=disable
+# nuitka-project: --windows-icon-from-ico=icon2.ico
+# nuitka-project: --product-name=SIPPCompare
+# nuitka-project: --product-version=1
+# nuitka-project: --output-filename=SIPPCompare
 import sys
 
 from PyQt6.QtWidgets import QApplication
