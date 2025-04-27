@@ -10,16 +10,10 @@
     <x>0</x>
     <y>0</y>
     <width>630</width>
-    <height>567</height>
+    <height>580</height>
    </rect>
   </property>
   <property name="minimumSize">
-   <size>
-    <width>630</width>
-    <height>567</height>
-   </size>
-  </property>
-  <property name="maximumSize">
    <size>
     <width>630</width>
     <height>567</height>
@@ -31,10 +25,10 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>13</x>
      <y>20</y>
-     <width>611</width>
-     <height>241</height>
+     <width>616</width>
+     <height>242</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -54,10 +48,16 @@
      <number>10</number>
     </property>
     <property name="verticalSpacing">
-     <number>5</number>
+     <number>6</number>
     </property>
     <item row="0" column="3">
      <widget class="QCheckBox" name="plat_name_check">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string> </string>
+      </property>
       <property name="checked">
        <bool>true</bool>
       </property>
@@ -336,7 +336,7 @@
    <property name="geometry">
     <rect>
      <x>482</x>
-     <y>534</y>
+     <y>545</y>
      <width>141</width>
      <height>24</height>
     </rect>
@@ -354,7 +354,7 @@
    <property name="geometry">
     <rect>
      <x>8</x>
-     <y>540</y>
+     <y>549</y>
      <width>191</width>
      <height>21</height>
     </rect>
@@ -366,7 +366,7 @@
   <widget class="QLabel" name="active_lab">
    <property name="geometry">
     <rect>
-     <x>577</x>
+     <x>572</x>
      <y>10</y>
      <width>61</width>
      <height>16</height>
@@ -382,15 +382,27 @@
   <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>11</x>
-     <y>309</y>
-     <width>611</width>
-     <height>31</height>
+     <x>19</x>
+     <y>307</y>
+     <width>591</width>
+     <height>40</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
-    <property name="verticalSpacing">
+    <property name="leftMargin">
      <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>6</number>
     </property>
     <item row="0" column="3">
      <widget class="FastEditQDoubleSpinBox" name="first_tier_fee_box">
@@ -467,7 +479,7 @@
    <property name="geometry">
     <rect>
      <x>532</x>
-     <y>481</y>
+     <y>487</y>
      <width>91</width>
      <height>24</height>
     </rect>
@@ -488,7 +500,7 @@
    <property name="geometry">
     <rect>
      <x>440</x>
-     <y>481</y>
+     <y>487</y>
      <width>91</width>
      <height>24</height>
     </rect>
@@ -505,8 +517,8 @@
   <widget class="QLabel" name="val_above_lab">
    <property name="geometry">
     <rect>
-     <x>6</x>
-     <y>479</y>
+     <x>10</x>
+     <y>486</y>
      <width>421</width>
      <height>21</height>
     </rect>
@@ -520,11 +532,11 @@
     <string>on the value above £ there is no charge</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="fund_plat_fee_lab">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>284</y>
+     <y>285</y>
      <width>151</width>
      <height>16</height>
     </rect>

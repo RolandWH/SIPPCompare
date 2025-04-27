@@ -299,7 +299,7 @@ class PlatformEdit(QWidget):
                 grid_height = int(round(28.5 * self.fund_fee_rows))
             else:
                 grid_height = int(round(28.5 * (self.fund_fee_rows + 1)))
-            self.gridLayoutWidget_2.setGeometry(QRect(11, 309, 611, grid_height))
+            self.gridLayoutWidget_2.setGeometry(QRect(19, 307, 591, grid_height))
             for i in range(len(widgets)):
                 if loading:
                     self.gridLayout_2.addWidget(widgets[i], x + 1, i, 1, 1)
@@ -337,7 +337,7 @@ class PlatformEdit(QWidget):
             widget.hide()
         self.widgets_list_list.pop()
         self.fund_fee_rows -= 1
-        self.gridLayoutWidget_2.setGeometry(11, 309, 611, int(round(28.5 * self.fund_fee_rows, 0)))
+        self.gridLayoutWidget_2.setGeometry(19, 307, 591, int(round(28.5 * self.fund_fee_rows, 0)))
 
         if self.fund_fee_rows < 2:
             self.del_row_but.setEnabled(False)
