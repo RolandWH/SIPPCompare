@@ -1,4 +1,4 @@
-## Nuitka compilation options
+## Nuitka compilation options (Windows only)
 # nuitka-project: --mode=onefile
 # nuitka-project: --enable-plugin=pyqt6
 # nuitka-project: --include-module=widgets.mpl_widget
@@ -7,7 +7,9 @@
 # nuitka-project: --windows-console-mode=disable
 # nuitka-project: --windows-icon-from-ico=icon2.ico
 # nuitka-project: --product-name=SIPPCompare
+# nuitka-project: --file-description=SIPPCompare
 # nuitka-project: --product-version=1
+# nuitka-project: --output-dir=build
 # nuitka-project: --output-filename=SIPPCompare
 import sys
 
