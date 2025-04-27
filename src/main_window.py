@@ -78,6 +78,7 @@ class SIPPCompare(QMainWindow):
         fund_trades_num = int(self.fund_trades_combo.currentText())
         share_trades_num = int(self.share_trades_combo.currentText())
         shares_value = (1 - (slider_val / 100)) * value_num
+        index = 0
 
         for platform in self.platform_list_win.plat_list:
             if not platform.enabled:
@@ -88,6 +89,8 @@ class SIPPCompare(QMainWindow):
             share_plat_fees = 0.0
             share_deal_fees = 0.0
             plat_name = platform.plat_name
+            if plat_name is None or plat_name == "":
+                plat_name = f"Unnamed [ID: {index}]"
 
             if platform.fund_deal_fee is not None:
                 fund_deal_fees = fund_trades_num * platform.fund_deal_fee
@@ -119,6 +122,7 @@ class SIPPCompare(QMainWindow):
                     share_deal_fees = platform.share_deal_fee * share_trades_num
 
             self.results.append([fund_plat_fees, fund_deal_fees, share_plat_fees, share_deal_fees, plat_name])
+            index += 1
 
         # Save details entered by user for next session
         self.db.write_user_details(value_num, slider_val, share_trades_num, fund_trades_num)

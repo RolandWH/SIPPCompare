@@ -1,7 +1,7 @@
 from PyQt6 import uic
 from PyQt6.QtCore import QRegularExpression, QRect
 from PyQt6.QtGui import QRegularExpressionValidator, QFont, QIcon
-from PyQt6.QtWidgets import QWidget, QLabel
+from PyQt6.QtWidgets import QLabel, QDialog
 
 import resource_finder
 from db_handler import DBHandler
@@ -9,7 +9,7 @@ from data_struct import Platform
 from widgets.fastedit_spinbox import FastEditQDoubleSpinBox
 
 
-class PlatformEdit(QWidget):
+class PlatformEdit(QDialog):
     def __init__(self, plat: Platform):
         super().__init__()
         # Import Qt Designer UI XML file
@@ -177,6 +177,8 @@ class PlatformEdit(QWidget):
             self.plat.share_deal_reduce_amount = float(self.share_deal_reduce_amount_box.value())
         else:
             self.plat.share_deal_reduce_amount = None
+
+        self.accept()
 
     # This method does multiple things in order to validate the user's inputs:
     # 1) Check all required fields have a non-zero value
@@ -347,3 +349,7 @@ class PlatformEdit(QWidget):
 
         self.check_valid()
         self.update_tier_labels()
+
+    def closeEvent(self, event):
+        event.ignore()
+        self.reject()

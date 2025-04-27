@@ -63,7 +63,7 @@ class PlatformList(QWidget):
         # Initialise class variables
         self.db = db
         self.plat_edit_win = None
-        self.plat_list_dialog = PlatformRename()
+        self.plat_list_dialog = None
         self.del_plat_dialog = RemoveConfirm()
         self.plat_list = []
         self.plat_name_list = []
@@ -95,6 +95,7 @@ class PlatformList(QWidget):
             self.platListWidget.addItem(item)
 
     def add_platform(self):
+        self.plat_list_dialog = PlatformRename()
         name_dialog_res = self.plat_list_dialog.exec()
         if name_dialog_res == QDialog.DialogCode.Accepted:
             name = self.plat_list_dialog.new_name
@@ -110,13 +111,19 @@ class PlatformList(QWidget):
                 index, [[0], [0]], name_param, True, 0, 0, None, 0, None, None)
             )
             self.plat_edit_win = PlatformEdit(self.plat_list[index])
-            self.plat_edit_win.show()
+            plat_edit_res = self.plat_edit_win.exec()
+            if plat_edit_res == QDialog.DialogCode.Rejected:
+                self.plat_list.pop()
+                self.platListWidget.takeItem(self.platListWidget.count() - 1)
 
     def get_enabled_state(self):
         index = self.platListWidget.currentRow()
-        is_enabled = self.plat_list[index].enabled
-        if is_enabled:
-            self.plat_enabled_check.setChecked(True)
+        if len(self.plat_list) > 0:
+            is_enabled = self.plat_list[index].enabled
+            if is_enabled:
+                self.plat_enabled_check.setChecked(True)
+            else:
+                self.plat_enabled_check.setChecked(False)
         else:
             self.plat_enabled_check.setChecked(False)
 
@@ -127,8 +134,9 @@ class PlatformList(QWidget):
 
     def edit_platform(self):
         index = self.platListWidget.currentRow()
-        self.plat_edit_win = PlatformEdit(self.plat_list[index])
-        self.plat_edit_win.show()
+        if len(self.plat_list) > 0:
+            self.plat_edit_win = PlatformEdit(self.plat_list[index])
+            self.plat_edit_win.exec()
 
     def save_platforms(self):
         self.db.write_platforms(self.plat_list)
@@ -138,7 +146,8 @@ class PlatformList(QWidget):
     def toggle_platform_state(self):
         index = self.platListWidget.currentRow()
         state = self.plat_enabled_check.isChecked()
-        self.plat_list[index].enabled = state
+        if len(self.plat_list) > 0 and index >= 0:
+            self.plat_list[index].enabled = state
 
     def remove_platform(self):
         index = self.platListWidget.currentRow()
