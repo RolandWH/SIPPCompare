@@ -131,6 +131,14 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>platListWidget</tabstop>
+  <tabstop>add_plat_but</tabstop>
+  <tabstop>del_plat_but</tabstop>
+  <tabstop>edit_plat_but</tabstop>
+  <tabstop>plist_save_but</tabstop>
+  <tabstop>plat_enabled_check</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

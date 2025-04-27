@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>243</height>
+    <height>240</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -16,11 +16,14 @@
     <height>240</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>420</width>
+    <height>240</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>SIPPCompare</string>
-  </property>
-  <property name="tabShape">
-   <enum>QTabWidget::TabShape::Rounded</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="formLayoutWidget">
@@ -63,9 +66,6 @@
         <font>
          <pointsize>11</pointsize>
         </font>
-       </property>
-       <property name="frame">
-        <bool>true</bool>
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
@@ -191,9 +191,6 @@
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="font">
     <font>
      <pointsize>10</pointsize>
@@ -248,6 +245,8 @@
  <tabstops>
   <tabstop>value_input</tabstop>
   <tabstop>mix_slider</tabstop>
+  <tabstop>share_trades_box</tabstop>
+  <tabstop>fund_trades_box</tabstop>
   <tabstop>calc_but</tabstop>
  </tabstops>
  <resources/>

@@ -123,6 +123,11 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>time_slider</tabstop>
+  <tabstop>save_csv_but</tabstop>
+  <tabstop>save_graph_but</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

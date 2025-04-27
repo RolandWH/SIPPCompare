@@ -2,9 +2,6 @@
 <ui version="4.0">
  <class>PlatformEdit</class>
  <widget class="QWidget" name="PlatformEdit">
-  <property name="windowModality">
-   <enum>Qt::WindowModality::ApplicationModal</enum>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -59,7 +56,7 @@
     <item row="0" column="3">
      <widget class="QCheckBox" name="plat_name_check">
       <property name="text">
-       <string/>
+       <string> </string>
       </property>
       <property name="checked">
        <bool>true</bool>
