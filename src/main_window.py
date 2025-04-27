@@ -39,20 +39,16 @@ class SIPPCompare(QMainWindow):
         self.mix_slider.valueChanged.connect(self.update_slider_lab)
         self.value_input.valueChanged.connect(self.check_valid)
         # Validate input
-        self.share_trades_combo.currentTextChanged.connect(self.check_valid)
-        self.fund_trades_combo.currentTextChanged.connect(self.check_valid)
-
-        ## Set validators
-        self.share_trades_combo.setValidator(QIntValidator(0, 999))
-        self.fund_trades_combo.setValidator(QIntValidator(0, 99))
+        self.share_trades_box.valueChanged.connect(self.check_valid)
+        self.fund_trades_box.valueChanged.connect(self.check_valid)
 
         ## Restore last session
         prev_session_data = self.db.retrieve_user_details()
         if "NO_RECORD" not in prev_session_data:
             self.value_input.setValue(prev_session_data["pension_val"])
             self.mix_slider.setValue(prev_session_data["slider_val"])
-            self.share_trades_combo.setCurrentText(str(prev_session_data["share_trades"]))
-            self.fund_trades_combo.setCurrentText(str(prev_session_data["fund_trades"]))
+            self.share_trades_box.setValue(prev_session_data["share_trades"])
+            self.fund_trades_box.setValue(prev_session_data["fund_trades"])
             self.calc_but.setFocus()
 
     # Display slider position as mix between two nums (funds/shares)
@@ -63,9 +59,7 @@ class SIPPCompare(QMainWindow):
 
     # Ensure that trade fields aren't blank and pension value > 0
     def check_valid(self):
-        if self.share_trades_combo.currentText() != "" \
-        and self.fund_trades_combo.currentText() != "" \
-        and self.value_input.value() != 0:
+        if self.value_input.value() != 0:
             self.calc_but.setEnabled(True)
         else:
             self.calc_but.setEnabled(False)
@@ -82,8 +76,8 @@ class SIPPCompare(QMainWindow):
         # Get user input
         value_num = float(self.value_input.value())
         slider_val: int = self.mix_slider.value()
-        fund_trades_num = int(self.fund_trades_combo.currentText())
-        share_trades_num = int(self.share_trades_combo.currentText())
+        fund_trades_num = int(self.fund_trades_box.value())
+        share_trades_num = int(self.share_trades_box.value())
         shares_value = (1 - (slider_val / 100)) * value_num
         index = 0
 

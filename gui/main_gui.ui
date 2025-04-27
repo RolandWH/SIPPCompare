@@ -7,16 +7,10 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>240</height>
+    <height>243</height>
    </rect>
   </property>
   <property name="minimumSize">
-   <size>
-    <width>420</width>
-    <height>240</height>
-   </size>
-  </property>
-  <property name="maximumSize">
    <size>
     <width>420</width>
     <height>240</height>
@@ -35,7 +29,7 @@
       <x>10</x>
       <y>0</y>
       <width>401</width>
-      <height>184</height>
+      <height>188</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -145,18 +139,6 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QComboBox" name="fund_trades_combo">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="5" column="0" colspan="2">
       <widget class="QPushButton" name="calc_but">
        <property name="enabled">
@@ -173,14 +155,35 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QComboBox" name="share_trades_combo">
+      <widget class="FastEditQSpinBox" name="share_trades_box">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
         </font>
        </property>
-       <property name="editable">
-        <bool>true</bool>
+       <property name="correctionMode">
+        <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>999</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="FastEditQSpinBox" name="fund_trades_box">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="correctionMode">
+        <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+       </property>
+       <property name="prefix">
+        <string/>
        </property>
       </widget>
      </item>
@@ -235,11 +238,16 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FastEditQSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>widgets/fastedit_spinbox</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>value_input</tabstop>
   <tabstop>mix_slider</tabstop>
-  <tabstop>share_trades_combo</tabstop>
-  <tabstop>fund_trades_combo</tabstop>
   <tabstop>calc_but</tabstop>
  </tabstops>
  <resources/>
