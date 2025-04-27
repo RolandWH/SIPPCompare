@@ -80,6 +80,7 @@ class DBHandler:
 
         return plat_name_list
 
+    # Write updated platform data to DB when changes are saved
     def write_platforms(self, plat_list: list[Platform]):
         for i in range(len(plat_list)):
             platforms_data = [
@@ -242,10 +243,12 @@ class DBHandler:
 
         return user_details_dict
 
+    # Toggle whether fees for this platform should be calculated
     def toggle_platform_state(self, index: int, state: bool):
         self.cur.execute("UPDATE tblPlatforms SET IsEnabled = ? WHERE PlatformID = ?", [state, index])
         self.conn.commit()
 
+    # Remove a platform from the DB - update the IDs to keep them sequential
     def remove_platform(self, index: int):
         tbl_list = ["tblPlatforms", "tblFlatPlatFees", "tblFlatDealFees", "tblFundPlatFee"]
         for tbl in tbl_list:
