@@ -2,12 +2,24 @@ import os.path
 import sys
 
 
-# If using PyInstaller, use it's temporary path, otherwise use cwd
-# Credit: https://stackoverflow.com/questions/7674790/bundling-data-files-with-pyinstaller-onefile/13790741#13790741
+# Returns the correct path for Nuitka onefile mode, standalone mode or normal Python
+# Credit: https://nuitka.net/user-documentation/common-issue-solutions.html#onefile-finding-files
 def get_res_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except AttributeError:
-        base_path = os.path.abspath(".")
+    path_a = ""
 
-    return os.path.join(base_path, relative_path)
+    try:
+        path_a = os.path.join(sys.__compiled__.containing_dir, relative_path)
+    except AttributeError:
+        pass
+
+    path_b = os.path.join(os.path.dirname(__file__), relative_path)
+    path_c = os.path.join(os.path.dirname(sys.argv[0]), relative_path)
+
+    if os.path.isfile(path_a):
+        return path_a
+    elif os.path.isfile(path_b):
+        return path_b
+    elif os.path.isfile(path_c):
+        return path_c
+    else:
+        return os.path.join(os.path.abspath("."), relative_path)

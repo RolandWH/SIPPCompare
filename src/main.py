@@ -1,5 +1,5 @@
 ## Nuitka compilation options
-# nuitka-project: --mode=standalone
+# nuitka-project: --mode=onefile
 # nuitka-project: --enable-plugin=pyqt6
 # nuitka-project: --include-module=widgets.mpl_widget
 # nuitka-project: --include-data-files=icon2.ico=icon2.ico
