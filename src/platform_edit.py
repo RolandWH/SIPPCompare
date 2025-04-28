@@ -18,7 +18,6 @@ class PlatformEdit(QDialog):
 
         # Initialise class variables
         self.plat = plat
-        self.fund_plat_fee = self.plat.fund_plat_fee
         self.widgets_list_list = []
         if len(self.plat.fund_plat_fee[0]) > 1:
             self.fund_fee_rows = len(self.plat.fund_plat_fee[0]) - 1
