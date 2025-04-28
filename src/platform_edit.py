@@ -255,9 +255,18 @@ class PlatformEdit(QDialog):
 
         if self.fund_fee_rows > 1:
             max_band = self.widgets_list_list[self.fund_fee_rows - 2][1].value()
+            if self.fund_fee_rows > 2:
+                prev_band = self.widgets_list_list[self.fund_fee_rows - 3][1].value()
+            else:
+                prev_band = self.first_tier_box.value()
         else:
             max_band = self.first_tier_box.value()
-        self.val_above_lab.setText(f"on the value above £{int(max_band)} there is no charge")
+            prev_band = self.first_tier_box.value()
+
+        if max_band > prev_band:
+            self.val_above_lab.setText(f"on the value above £{max_band:.2f} there is no charge")
+        else:
+            self.val_above_lab.setText(f"on the value above £{prev_band:.2f} there is no charge")
 
     def add_row(self, loading: bool = False):
         if loading:
