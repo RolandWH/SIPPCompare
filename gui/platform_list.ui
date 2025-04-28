@@ -59,6 +59,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="del_plat_but">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>135</x>
@@ -95,6 +98,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="edit_plat_but">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>11</x>
@@ -113,6 +119,9 @@
    </property>
   </widget>
   <widget class="QCheckBox" name="plat_enabled_check">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>12</x>

@@ -93,6 +93,7 @@ class PlatformList(QWidget):
                 item.setText(f"Unnamed [ID: {i}]")
 
             self.platListWidget.addItem(item)
+        self.platListWidget.setCurrentRow(0)
 
     def add_platform(self):
         self.plat_list_dialog = PlatformRename()
@@ -115,6 +116,15 @@ class PlatformList(QWidget):
             if plat_edit_res == QDialog.DialogCode.Rejected:
                 self.plat_list.pop()
                 self.platListWidget.takeItem(self.platListWidget.count() - 1)
+                self.platListWidget.setCurrentRow(index - 1)
+            else:
+                index = len(self.plat_list) - 1
+                if self.plat_list[index].plat_name is not None:
+                    item = self.platListWidget.takeItem(index)
+                    item.setText(self.plat_list[index].plat_name)
+                    self.platListWidget.insertItem(index, item)
+                self.platListWidget.setCurrentRow(index)
+
 
     def get_enabled_state(self):
         index = self.platListWidget.currentRow()
@@ -132,11 +142,26 @@ class PlatformList(QWidget):
         else:
             self.del_plat_but.setEnabled(False)
 
+        valid_selection = False
+        for plat in self.plat_list:
+            if plat.plat_id == index:
+                valid_selection = True
+        if valid_selection:
+            self.edit_plat_but.setEnabled(True)
+            self.plat_enabled_check.setEnabled(True)
+        else:
+            self.edit_plat_but.setEnabled(False)
+            self.plat_enabled_check.setEnabled(False)
+
     def edit_platform(self):
         index = self.platListWidget.currentRow()
-        if len(self.plat_list) > 0:
-            self.plat_edit_win = PlatformEdit(self.plat_list[index])
-            self.plat_edit_win.exec()
+        self.plat_edit_win = PlatformEdit(self.plat_list[index])
+        plat_edit_res = self.plat_edit_win.exec()
+        if plat_edit_res == QDialog.DialogCode.Accepted:
+            item = self.platListWidget.takeItem(index)
+            item.setText(self.plat_list[index].plat_name)
+            self.platListWidget.insertItem(index, item)
+            self.platListWidget.setCurrentRow(index)
 
     def save_platforms(self):
         self.db.write_platforms(self.plat_list)
@@ -155,3 +180,6 @@ class PlatformList(QWidget):
         if del_dialog_res == QMessageBox.StandardButton.Yes:
             self.db.remove_platform(index)
             self.update_plat_list()
+
+    def showEvent(self, event):
+        self.get_enabled_state()
