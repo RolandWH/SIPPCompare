@@ -47,6 +47,9 @@ class OutputWindow(QWidget):
         self.save_csv_but.clicked.connect(self.save_csv)
         self.time_slider.valueChanged.connect(self.change_time)
 
+    def get_slider_position(self) -> int:
+        return self.time_slider.value()
+
     def display_output(self, results: list, years: int):
         self.results = results
         self.ax.clear()

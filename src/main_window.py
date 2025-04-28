@@ -132,8 +132,10 @@ class SIPPCompare(QMainWindow):
     # Show the output window - this func is called from calculate_fee()
     def show_output_win(self):
         # Refresh the results when new fees are calculated
-        self.output_win = OutputWindow()
-        self.output_win.display_output(self.results, 1)
+        if self.output_win is None:
+            self.output_win = OutputWindow()
+        years = self.output_win.get_slider_position()
+        self.output_win.display_output(self.results, years)
         self.calc_but.setText("Calculate")
         self.output_win.activateWindow()
         self.output_win.raise_()
