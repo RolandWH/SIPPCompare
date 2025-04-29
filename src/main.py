@@ -8,7 +8,7 @@
 # nuitka-project: --windows-icon-from-ico=icon2.ico
 # nuitka-project: --product-name=SIPPCompare
 # nuitka-project: --file-description=SIPPCompare
-# nuitka-project: --product-version=1
+# nuitka-project: --product-version=1.1
 # nuitka-project: --output-dir=build
 # nuitka-project: --output-filename=SIPPCompare
 import sys
